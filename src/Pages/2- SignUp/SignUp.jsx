@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -24,6 +24,14 @@ export default function SignIn() {
   // const [passwordShow, setPasswordShow] = useState(false);
   // const iconChangeHandler = () => {};
   //! State Management by using Custom hooks
+  const {
+    enteredValue: enteredUserName,
+    isValid: userNameIsValid,
+    inputChangeHandler: userNameChangeHandler,
+    onBlurHandler: userNameBlurHandler,
+    hasError: userNameInputIsValid,
+  } = useInput((value) => value.trim() !== "");
+
   const {
     enteredValue: enteredEmail,
     isValid: emailIsValid,
@@ -56,7 +64,7 @@ export default function SignIn() {
       <div
         style={{
           background:
-            "linear-gradient(90deg, rgba(124,40,116,1) 0%, rgba(74,52,70,1) 100%)",
+            "linear-gradient(90deg, rgba(75,124,40,1) 0%, rgba(39,47,43,1) 100%)",
           height: "100vh",
           width: "100%",
           display: "flex",
@@ -84,22 +92,22 @@ export default function SignIn() {
               paddingY: 4,
             }}
           >
-            <Avatar sx={{ mb: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
+            <Avatar sx={{ mb: 1, backgroundColor: "green" }}>
+              <PersonAddAltIcon />
             </Avatar>
             <Typography
               sx={{
                 fontFamily: "Montserrat, sans-serif",
-                color: "#A700D0",
+                color: "green",
                 fontWeight: "bold",
               }}
               component="h1"
               variant="h5"
             >
-              SIGN IN
+              SIGN UP
             </Typography>
             <Typography align="center">
-              Enter your credentails to access your account
+              Enter your credentails to create new account
             </Typography>
             <Box
               component="form"
@@ -107,6 +115,20 @@ export default function SignIn() {
               noValidate
               sx={{ mt: 1 }}
             >
+              <TextField
+                error={userNameInputIsValid}
+                helperText={userNameInputIsValid ? "invalid Username" : ""}
+                margin="normal"
+                required
+                fullWidth
+                id="text"
+                label="Enter Your Username"
+                name="text"
+                autoComplete="text"
+                onChange={userNameChangeHandler}
+                onBlur={userNameBlurHandler}
+                value={enteredUserName}
+              />
               <TextField
                 error={emailInputIsValid}
                 helperText={
@@ -150,20 +172,20 @@ export default function SignIn() {
                 sx={{
                   mt: 3,
                   mb: 2,
-                  backgroundColor: "#A700D0",
+                  backgroundColor: "green",
                   "&:hover": {
-                    backgroundColor: "rgba(124, 40, 116, 1)",
+                    backgroundColor: "green",
                   },
                 }}
               >
-                Sign In
+                Register
               </Button>
               <Grid container>
                 <Grid item>
                   <p>
-                    Don't have an account?{" "}
-                    <Link sx={{ color: "#A700D0", cursor: "pointer" }}>
-                      Sign up
+                    Already have account?{" "}
+                    <Link to={"/"} style={{ color: "green" }}>
+                      Log in
                     </Link>
                   </p>
                 </Grid>
