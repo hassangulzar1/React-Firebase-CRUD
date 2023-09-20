@@ -1,11 +1,11 @@
 import { Fragment } from "react";
 import "./App.css";
-import Login from "./Pages/1- Login/Login";
+import Routes from "./Pages/Routes";
 
 function App() {
   return (
     <Fragment>
-      <Login />
+      <Routes />
     </Fragment>
   );
 }

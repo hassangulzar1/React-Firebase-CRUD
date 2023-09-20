@@ -3,7 +3,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
+import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -162,10 +162,7 @@ export default function SignIn() {
                 <Grid item>
                   <p>
                     Don't have an account?{" "}
-                    <Link
-                      to={"/signup"}
-                      sx={{ color: "#A700D0", cursor: "pointer" }}
-                    >
+                    <Link sx={{ color: "#A700D0", cursor: "pointer" }}>
                       Sign up
                     </Link>
                   </p>
