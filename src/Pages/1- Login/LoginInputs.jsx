@@ -1,35 +1,15 @@
 import React, { Fragment } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import useInput from "../../hooks/use-input";
 
-const LoginInputs = () => {
-  //! State Management by using Custom hooks
-  const {
-    enteredValue: enteredEmail,
-    isValid: emailIsValid,
-    inputChangeHandler: emailChangeHandler,
-    onBlurHandler: emailBlurHandler,
-    hasError: emailInputIsValid,
-  } = useInput((value) => value.includes("@gmail.com"));
-
-  const {
-    enteredValue: enteredPassword,
-    isValid: passwordIsValid,
-    inputChangeHandler: passwordChangeHandler,
-    onBlurHandler: passwordBlurHandler,
-    hasError: passwordInputIsValid,
-  } = useInput((value) => value.trim().length >= 7);
-  let formIsValid = false;
-  if (emailIsValid && passwordIsValid) {
-    formIsValid = true;
-  }
-
+const LoginInputs = (props) => {
   return (
     <Fragment>
       <TextField
-        error={emailInputIsValid}
-        helperText={emailInputIsValid ? "Must Included (@gmail.com)" : ""}
+        error={props.email.emailInputIsValid}
+        helperText={
+          props.email.emailInputIsValid ? "Must Included (@gmail.com)" : ""
+        }
         margin="normal"
         required
         fullWidth
@@ -37,14 +17,16 @@ const LoginInputs = () => {
         label="Enter Your Email"
         name="email"
         autoComplete="email"
-        onChange={emailChangeHandler}
-        onBlur={emailBlurHandler}
-        value={enteredEmail}
+        onChange={props.email.emailChangeHandler}
+        onBlur={props.email.emailBlurHandler}
+        value={props.email.enteredEmail}
       />
       <TextField
-        error={passwordInputIsValid}
+        error={props.password.passwordInputIsValid}
         helperText={
-          passwordInputIsValid ? "Password must be 7 characters long" : ""
+          props.password.passwordInputIsValid
+            ? "Password must be 7 characters long"
+            : ""
         }
         margin="normal"
         required
@@ -54,15 +36,15 @@ const LoginInputs = () => {
         type="password"
         id="password"
         autoComplete="current-password"
-        onChange={passwordChangeHandler}
-        onBlur={passwordBlurHandler}
-        value={enteredPassword}
+        onChange={props.password.passwordChangeHandler}
+        onBlur={props.password.passwordBlurHandler}
+        value={props.password.enteredPassword}
       />
       <Button
         type="submit"
         fullWidth
         variant="contained"
-        disabled={!formIsValid}
+        disabled={!props.formIsValid}
         sx={{
           mt: 3,
           mb: 2,
