@@ -1,28 +1,18 @@
 import React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CopyRight from "../../Components/Copyright";
 import useInput from "../../hooks/use-input";
-// import InputAdornment from "@mui/material/InputAdornment";
-// import Visibility from "@mui/icons-material/Visibility";
-// import VisibilityOff from "@mui/icons-material/VisibilityOff";
-// import IconButton from "@mui/material/IconButton";
+import SignUpHead from "./SignUpHead";
+import SignUpInput from "./SignUpInput";
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  //! show hide password state
-  // const [passwordShow, setPasswordShow] = useState(false);
-  // const iconChangeHandler = () => {};
   //! State Management by using Custom hooks
   const {
     enteredValue: enteredUserName,
@@ -50,7 +40,7 @@ export default function SignIn() {
 
   let formIsValid = false;
 
-  if (emailIsValid && passwordIsValid) {
+  if (emailIsValid && passwordIsValid && userNameIsValid) {
     formIsValid = true;
   }
   //! Submit Handler
@@ -92,94 +82,32 @@ export default function SignIn() {
         >
           <CssBaseline />
           <Box sx={boxStyling}>
-            <Avatar sx={{ mb: 1, backgroundColor: "green" }}>
-              <PersonAddAltIcon />
-            </Avatar>
-            <Typography
-              sx={{
-                fontFamily: "Montserrat, sans-serif",
-                color: "green",
-                fontWeight: "bold",
-              }}
-              component="h1"
-              variant="h5"
-            >
-              SIGN UP
-            </Typography>
-            <Typography align="center">
-              Enter your credentails to create new account
-            </Typography>
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              noValidate
-              sx={{ mt: 1 }}
-            >
-              <TextField
-                error={userNameInputIsValid}
-                helperText={userNameInputIsValid ? "invalid Username" : ""}
-                margin="normal"
-                required
-                fullWidth
-                id="text"
-                label="Enter Your Username"
-                name="text"
-                autoComplete="text"
-                onChange={userNameChangeHandler}
-                onBlur={userNameBlurHandler}
-                value={enteredUserName}
-              />
-              <TextField
-                error={emailInputIsValid}
-                helperText={
-                  emailInputIsValid ? "Must Included (@gmail.com)" : ""
-                }
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Enter Your Email"
-                name="email"
-                autoComplete="email"
-                onChange={emailChangeHandler}
-                onBlur={emailBlurHandler}
-                value={enteredEmail}
-              />
-              <TextField
-                error={passwordInputIsValid}
-                helperText={
-                  passwordInputIsValid
-                    ? "Password must be 7 characters long"
-                    : ""
-                }
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Enter Your Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={passwordChangeHandler}
-                onBlur={passwordBlurHandler}
-                value={enteredPassword}
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                disabled={!formIsValid}
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  backgroundColor: "green",
-                  "&:hover": {
-                    backgroundColor: "green",
-                  },
+            <SignUpHead />
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <SignUpInput
+                userName={{
+                  enteredUserName,
+                  userNameChangeHandler,
+                  userNameBlurHandler,
+                  userNameIsValid,
+                  userNameInputIsValid,
                 }}
-              >
-                Register
-              </Button>
+                email={{
+                  enteredEmail,
+                  emailChangeHandler,
+                  emailBlurHandler,
+                  emailIsValid,
+                  emailInputIsValid,
+                }}
+                password={{
+                  passwordInputIsValid,
+                  passwordChangeHandler,
+                  passwordBlurHandler,
+                  passwordIsValid,
+                  passwordInputIsValid,
+                }}
+                formIsValid={formIsValid}
+              />
               <Grid container>
                 <Grid item>
                   <p>
