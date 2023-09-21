@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -8,9 +8,15 @@ import useInput from "../../hooks/use-input";
 import SignUpHead from "./SignUpHead";
 import SignUpInput from "./SignUpInput";
 import SignUpBottom from "./SignUpBottom";
+import { ToastContainer, toast } from "react-toastify";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../../firebase-config";
+import { useNavigate } from "react-router-dom";
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const [isLoading, setIsLoading] = useState(false);
+
   //! State Management by using Custom hooks
   const {
     enteredValue: enteredUserName,
@@ -18,6 +24,7 @@ export default function SignIn() {
     inputChangeHandler: userNameChangeHandler,
     onBlurHandler: userNameBlurHandler,
     hasError: userNameInputIsValid,
+    reset: userNameReset,
   } = useInput((value) => value.trim() !== "");
 
   const {
@@ -26,6 +33,7 @@ export default function SignIn() {
     inputChangeHandler: emailChangeHandler,
     onBlurHandler: emailBlurHandler,
     hasError: emailInputIsValid,
+    reset: emailReset,
   } = useInput((value) => value.includes("@gmail.com"));
 
   const {
@@ -34,16 +42,41 @@ export default function SignIn() {
     inputChangeHandler: passwordChangeHandler,
     onBlurHandler: passwordBlurHandler,
     hasError: passwordInputIsValid,
+    reset: passwordReset,
   } = useInput((value) => value.trim().length >= 7);
-
   let formIsValid = false;
-
   if (emailIsValid && passwordIsValid && userNameIsValid) {
     formIsValid = true;
   }
   //! Submit Handler
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+      setIsLoading(true);
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        enteredEmail,
+        enteredPassword
+      );
+      updateProfile(response.user, {
+        displayName: enteredUserName,
+      });
+    } catch (err) {
+      setIsLoading(false);
+      return toast.error(err.message, {
+        icon: "❌",
+        theme: "dark",
+      });
+    }
+    setIsLoading(false);
+    userNameReset();
+    emailReset();
+    passwordReset();
+    toast.success("Account created successfully!", {
+      icon: "🚀",
+      theme: "dark",
+    });
+    useNavigate("/");
   };
 
   //! css Classes
@@ -68,6 +101,7 @@ export default function SignIn() {
   //!  Jsx Code
   return (
     <ThemeProvider theme={defaultTheme}>
+      <ToastContainer />
       <div style={parentDiv}>
         <Container
           component="main"
@@ -105,6 +139,7 @@ export default function SignIn() {
                   passwordInputIsValid,
                 }}
                 formIsValid={formIsValid}
+                isLoading={isLoading}
               />
               <SignUpBottom />
             </Box>

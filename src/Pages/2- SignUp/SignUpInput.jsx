@@ -59,6 +59,7 @@ const SignUpInput = (props) => {
       />
       <Button
         type="submit"
+        loading={true}
         fullWidth
         variant="contained"
         disabled={!props.formIsValid}
@@ -71,7 +72,7 @@ const SignUpInput = (props) => {
           },
         }}
       >
-        Register
+        {props.isLoading ? "Loading..." : "Register"}
       </Button>
     </Fragment>
   );

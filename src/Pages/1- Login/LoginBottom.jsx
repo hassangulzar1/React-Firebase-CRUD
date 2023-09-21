@@ -16,4 +16,4 @@ const LoginBottom = () => {
   );
 };
 
-export default LoginBottom;
+export default React.memo(LoginBottom);

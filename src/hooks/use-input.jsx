@@ -14,13 +14,17 @@ const useInput = (inputValue) => {
   const onBlurHandler = () => {
     setOnBlur(true);
   };
-
+  const reset = () => {
+    setEnteredValue("");
+    setOnBlur(false);
+  };
   return {
     enteredValue,
     isValid,
     hasError,
     inputChangeHandler,
     onBlurHandler,
+    reset,
   };
 };
 
