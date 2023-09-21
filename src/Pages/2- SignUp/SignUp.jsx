@@ -1,7 +1,5 @@
 import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Link } from "react-router-dom";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -9,7 +7,7 @@ import CopyRight from "../../Components/Copyright";
 import useInput from "../../hooks/use-input";
 import SignUpHead from "./SignUpHead";
 import SignUpInput from "./SignUpInput";
-
+import SignUpBottom from "./SignUpBottom";
 const defaultTheme = createTheme();
 
 export default function SignIn() {
@@ -100,7 +98,7 @@ export default function SignIn() {
                   emailInputIsValid,
                 }}
                 password={{
-                  passwordInputIsValid,
+                  enteredPassword,
                   passwordChangeHandler,
                   passwordBlurHandler,
                   passwordIsValid,
@@ -108,16 +106,7 @@ export default function SignIn() {
                 }}
                 formIsValid={formIsValid}
               />
-              <Grid container>
-                <Grid item>
-                  <p>
-                    Already have account?{" "}
-                    <Link to={"/"} style={{ color: "green" }}>
-                      Log in
-                    </Link>
-                  </p>
-                </Grid>
-              </Grid>
+              <SignUpBottom />
             </Box>
           </Box>
         </Container>
