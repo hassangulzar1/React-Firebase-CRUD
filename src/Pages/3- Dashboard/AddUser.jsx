@@ -5,12 +5,17 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 
-const options = ["Name", "Email"];
 const AddUser = () => {
-  const [value, setValue] = useState(options[0]);
-  const [inputValue, setInputValue] = useState("");
+  const [age, setAge] = React.useState("");
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+
   //! Css Sx Styles
   const boxStyle = {
     bgcolor: "white",
@@ -22,6 +27,7 @@ const AddUser = () => {
     justifyContent: "space-around",
     alignItems: "center",
     borderRadius: "12px",
+    flexWrap: "Wrap",
   };
   return (
     //! Add Button
@@ -47,24 +53,22 @@ const AddUser = () => {
       {/* Search Input  */}
       <Container maxWidth="lg">
         <Box sx={boxStyle}>
-          <div sx={{ marginStart: 2 }}>
-            <Autocomplete
-              value={value}
-              onChange={(event, newValue) => {
-                setValue(newValue);
-              }}
-              inputValue={inputValue}
-              onInputChange={(event, newInputValue) => {
-                setInputValue(newInputValue);
-              }}
-              id="controllable-states-demo"
-              options={options}
-              sx={{ width: 300 }}
-              renderInput={(params) => (
-                <TextField {...params} label="Search By" />
-              )}
-            />
-          </div>
+          <Box sx={{ minWidth: 180 }}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
+              <Select
+                id="demo-simple-select"
+                value={age}
+                label="Filter By"
+                onChange={handleChange}
+              >
+                <MenuItem value={"Name"}>Name</MenuItem>
+                <MenuItem value={"Email"}>Email</MenuItem>
+                <MenuItem value={"Id"}>Id</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+
           <TextField id="outlined-search" label="Search" type="search" />
         </Box>
       </Container>
