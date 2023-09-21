@@ -40,10 +40,8 @@ const AddUser = () => {
           sx={{
             color: "white",
             borderColor: "white",
-            position: "fixed",
-            right: "0",
             marginRight: 4,
-            marginBottom: 5,
+            marginBottom: 4,
           }}
         >
           <AddCircleOutlineIcon sx={{ marginRight: 1 }} />
