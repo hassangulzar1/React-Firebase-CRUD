@@ -1,17 +1,15 @@
-import React, { useState } from "react";
-import Avatar from "@mui/material/Avatar";
+import React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CopyRight from "../../Components/Copyright";
 import useInput from "../../hooks/use-input";
+import LoginHead from "./LoginHead";
 // import InputAdornment from "@mui/material/InputAdornment";
 // import Visibility from "@mui/icons-material/Visibility";
 // import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -85,23 +83,8 @@ export default function SignIn() {
               paddingY: 4,
             }}
           >
-            <Avatar sx={{ mb: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography
-              sx={{
-                fontFamily: "Montserrat, sans-serif",
-                color: "#A700D0",
-                fontWeight: "bold",
-              }}
-              component="h1"
-              variant="h5"
-            >
-              SIGN IN
-            </Typography>
-            <Typography align="center">
-              Enter your credentails to access your account
-            </Typography>
+            {/* Login Heade Component */}
+            <LoginHead />
             <Box
               component="form"
               onSubmit={handleSubmit}

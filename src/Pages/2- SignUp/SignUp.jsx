@@ -58,21 +58,29 @@ export default function SignIn() {
     event.preventDefault();
   };
 
+  //! css Classes
+  const parentDiv = {
+    background:
+      "linear-gradient(90deg, rgba(75,124,40,1) 0%, rgba(39,47,43,1) 100%)",
+    height: "100vh",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+  };
+  const boxStyling = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    paddingX: 3,
+    paddingY: 4,
+  };
+
   //!  Jsx Code
   return (
     <ThemeProvider theme={defaultTheme}>
-      <div
-        style={{
-          background:
-            "linear-gradient(90deg, rgba(75,124,40,1) 0%, rgba(39,47,43,1) 100%)",
-          height: "100vh",
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
+      <div style={parentDiv}>
         <Container
           component="main"
           maxWidth="xs"
@@ -83,15 +91,7 @@ export default function SignIn() {
           }}
         >
           <CssBaseline />
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              paddingX: 3,
-              paddingY: 4,
-            }}
-          >
+          <Box sx={boxStyling}>
             <Avatar sx={{ mb: 1, backgroundColor: "green" }}>
               <PersonAddAltIcon />
             </Avatar>
