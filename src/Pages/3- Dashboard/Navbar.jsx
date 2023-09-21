@@ -16,7 +16,7 @@ const Navbar = () => {
           <p style={{ fontFamily: "Montserrat, sans-serif", margin: "2px 0" }}>
             User Name
           </p>
-          <Link>SIGN OUT</Link>
+          <Link style={{ textDecoration: "underline" }}>SIGN OUT</Link>
         </div>
       </div>
     </div>
