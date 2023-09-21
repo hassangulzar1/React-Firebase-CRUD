@@ -10,28 +10,33 @@ import LoginBottom from "./LoginBottom";
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  //! State Management by using Custom hooks
-
   //! Submit Handler
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
+  //! Css Classes Objects
+  const parentDiv = {
+    background:
+      "linear-gradient(90deg, rgba(124,40,116,1) 0%, rgba(74,52,70,1) 100%)",
+    height: "100vh",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+  };
+  const inputBox = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    paddingX: 3,
+    paddingY: 4,
+  };
   //!  Jsx Code
   return (
     <ThemeProvider theme={defaultTheme}>
-      <div
-        style={{
-          background:
-            "linear-gradient(90deg, rgba(124,40,116,1) 0%, rgba(74,52,70,1) 100%)",
-          height: "100vh",
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
+      <div style={parentDiv}>
         <Container
           component="main"
           maxWidth="xs"
@@ -42,15 +47,7 @@ export default function SignIn() {
           }}
         >
           <CssBaseline />
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              paddingX: 3,
-              paddingY: 4,
-            }}
-          >
+          <Box sx={inputBox}>
             {/* Login Heade Component */}
             <LoginHead />
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>

@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import useInput from "../../hooks/use-input";
 
 const LoginInputs = () => {
+  //! State Management by using Custom hooks
   const {
     enteredValue: enteredEmail,
     isValid: emailIsValid,
@@ -19,9 +20,7 @@ const LoginInputs = () => {
     onBlurHandler: passwordBlurHandler,
     hasError: passwordInputIsValid,
   } = useInput((value) => value.trim().length >= 7);
-
   let formIsValid = false;
-
   if (emailIsValid && passwordIsValid) {
     formIsValid = true;
   }
