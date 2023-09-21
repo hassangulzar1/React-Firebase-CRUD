@@ -8,7 +8,7 @@ import useInput from "../../hooks/use-input";
 import SignUpHead from "./SignUpHead";
 import SignUpInput from "./SignUpInput";
 import SignUpBottom from "./SignUpBottom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
-
+  const navigate = useNavigate();
   //! State Management by using Custom hooks
   const {
     enteredValue: enteredUserName,
@@ -68,18 +68,18 @@ export default function SignIn() {
         theme: "dark",
       });
     }
-    setIsLoading(false);
-    userNameReset();
-    emailReset();
-    passwordReset();
     toast.success("Account created successfully!", {
       icon: "🚀",
       theme: "dark",
     });
-    useNavigate("/");
+    setIsLoading(false);
+    userNameReset();
+    emailReset();
+    passwordReset();
+    navigate("/");
   };
 
-  //! css Classes
+  //! Css Classes
   const parentDiv = {
     background:
       "linear-gradient(90deg, rgba(75,124,40,1) 0%, rgba(39,47,43,1) 100%)",
@@ -101,7 +101,6 @@ export default function SignIn() {
   //!  Jsx Code
   return (
     <ThemeProvider theme={defaultTheme}>
-      <ToastContainer />
       <div style={parentDiv}>
         <Container
           component="main"
