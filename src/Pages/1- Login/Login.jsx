@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -8,9 +8,16 @@ import LoginHead from "./LoginHead";
 import LoginInputs from "./LoginInputs";
 import LoginBottom from "./LoginBottom";
 import useInput from "../../hooks/use-input";
+import { toast } from "react-toastify";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase-config";
+import { useNavigate } from "react-router-dom";
+
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   //! State Management by using Custom hooks
   const {
     enteredValue: enteredEmail,
@@ -18,6 +25,7 @@ export default function SignIn() {
     inputChangeHandler: emailChangeHandler,
     onBlurHandler: emailBlurHandler,
     hasError: emailInputIsValid,
+    reset: emailReset,
   } = useInput((value) => value.includes("@gmail.com"));
 
   const {
@@ -26,6 +34,7 @@ export default function SignIn() {
     inputChangeHandler: passwordChangeHandler,
     onBlurHandler: passwordBlurHandler,
     hasError: passwordInputIsValid,
+    reset: passwordReset,
   } = useInput((value) => value.trim().length >= 7);
 
   let formIsValid = false;
@@ -33,8 +42,30 @@ export default function SignIn() {
     formIsValid = true;
   }
   //! Submit Handler
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+      setIsLoading(true);
+      const response = await signInWithEmailAndPassword(
+        auth,
+        enteredEmail,
+        enteredPassword
+      );
+    } catch (err) {
+      setIsLoading(false);
+      return toast.error(err.message, {
+        icon: "❌",
+        theme: "dark",
+      });
+    }
+    toast.success(`You have been loGGEd INN`, {
+      icon: "🚀",
+      theme: "dark",
+    });
+    setIsLoading(false);
+    emailReset();
+    passwordReset();
+    navigate("/dashboard");
   };
 
   //! Css Classes Objects
@@ -91,6 +122,7 @@ export default function SignIn() {
                   passwordIsValid,
                 }}
                 formIsValid={formIsValid}
+                isLoading={isLoading}
               />
               <LoginBottom />
             </Box>

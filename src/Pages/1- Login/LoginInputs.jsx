@@ -54,7 +54,7 @@ const LoginInputs = (props) => {
           },
         }}
       >
-        Sign In
+        {props.isLoading ? "Loading..." : "sign in"}
       </Button>
     </Fragment>
   );
