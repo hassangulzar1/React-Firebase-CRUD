@@ -1,0 +1,11 @@
+.mainDiv {
+  height: 13vh;
+
+  background: linear-gradient(
+    90deg,
+    rgba(124, 40, 116, 1) 0%,
+    rgba(74, 52, 70, 1) 100%
+  );
+  display: flex;
+  align-items: flex-end;
+}
