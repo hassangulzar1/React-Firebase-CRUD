@@ -9,14 +9,14 @@ const authContext = createContext({
 
 export const AuthContextProvider = (props) => {
   const [modalState, setModalState] = useState(false);
-  const [loginUserName, setLoginUserName] = useState("");
-
+  //   const [loginUserName, setLoginUserName] = useState("");
+  let loginUserName = "";
   const modalStateHandler = (bolian) => {
     setModalState(bolian);
   };
   return (
     <authContext.Provider
-      value={{ modalState, modalStateHandler, loginUserName, setLoginUserName }}
+      value={{ modalState, modalStateHandler, loginUserName }}
     >
       {props.children}
     </authContext.Provider>

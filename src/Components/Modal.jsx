@@ -6,6 +6,7 @@ import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import authContext from "../context/authContext";
 import ModalInputs from "./ModalInputs";
+
 const style = {
   position: "absolute",
   top: "50%",

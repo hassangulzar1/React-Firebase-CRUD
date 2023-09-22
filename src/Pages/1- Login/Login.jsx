@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import authContext from "../../context/authContext";
 
 const defaultTheme = createTheme();
+
 export default function SignIn() {
   //!Context Data
   const ctx = useContext(authContext);
@@ -54,7 +55,11 @@ export default function SignIn() {
         enteredEmail,
         enteredPassword
       );
-      ctx.setLoginUserName(response.user.displayName);
+      ctx.loginUserName = response.user.displayName;
+      toast.success(`You have been loggedIn "${ctx.loginUserName}"`, {
+        icon: "🚀",
+        theme: "dark",
+      });
     } catch (err) {
       setIsLoading(false);
       return toast.error(err.message, {
@@ -62,16 +67,12 @@ export default function SignIn() {
         theme: "dark",
       });
     }
-    toast.success(`You have been loGGEd INN`, {
-      icon: "🚀",
-      theme: "dark",
-    });
+
     setIsLoading(false);
     emailReset();
     passwordReset();
     navigate("/dashboard");
   };
-
   //! Css Classes Objects
   const parentDiv = {
     background:

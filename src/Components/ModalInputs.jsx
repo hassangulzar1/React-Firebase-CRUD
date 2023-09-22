@@ -4,6 +4,7 @@ import useInput from "../hooks/use-input";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import authContext from "../context/authContext";
+
 const ModalInputs = () => {
   const ctx = useContext(authContext);
   //! Inputs States
@@ -61,7 +62,16 @@ const ModalInputs = () => {
 
   // Submit Handler
 
-  const AddUserSubmitHandler = () => {};
+  const AddUserSubmitHandler = () => {
+    event.preventDefault();
+    console.log(
+      enteredId,
+      enteredName,
+      enteredEmail,
+      enteredSallary,
+      enteredDate
+    );
+  };
   return (
     <div
       style={{
@@ -135,7 +145,12 @@ const ModalInputs = () => {
           spacing={2}
           sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}
         >
-          <Button variant="contained" color="success" disabled={!formIsValid}>
+          <Button
+            variant="contained"
+            color="success"
+            type="submit"
+            disabled={!formIsValid}
+          >
             Add User
           </Button>
           <Button
