@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { TextField } from "@mui/material";
 import useInput from "../hooks/use-input";
-
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import authContext from "../context/authContext";
 const ModalInputs = () => {
+  const ctx = useContext(authContext);
   //! Inputs States
   const {
     enteredValue: enteredId,
@@ -37,7 +40,28 @@ const ModalInputs = () => {
     hasError: sallaryInputIsValid,
     reset: sallaryReset,
   } = useInput((value) => value.trim() !== "");
+  const {
+    enteredValue: enteredDate,
+    isValid: dateIsValid,
+    inputChangeHandler: DateChangeHandler,
+    onBlurHandler: DateBlurHandler,
+    hasError: dateInputIsValid,
+    reset: DateReset,
+  } = useInput((value) => value.trim() !== "");
+  let formIsValid = false;
+  if (
+    idIsValid &&
+    nameIsValid &&
+    emailIsValid &&
+    sallaryIsValid &&
+    dateIsValid
+  ) {
+    formIsValid = true;
+  }
 
+  // Submit Handler
+
+  const AddUserSubmitHandler = () => {};
   return (
     <div
       style={{
@@ -47,53 +71,82 @@ const ModalInputs = () => {
         flexDirection: "column",
       }}
     >
-      <TextField
-        fullWidth
-        sx={{ marginY: 1 }}
-        type="number"
-        label="Unique Id"
-        value={enteredId}
-        onChange={idChangeHanlder}
-        onBlur={idBlurHandler}
-        error={idInputIsValid}
-        helperText={idInputIsValid ? "Please enter a valid Id (4 digits)" : ""}
-      />
-      <TextField
-        fullWidth
-        sx={{ marginY: 1 }}
-        type="text"
-        label="User Name"
-        value={enteredName}
-        onChange={nameChangeHandler}
-        onBlur={nameBlurHanlder}
-        error={nameInputIsValid}
-        helperText={nameInputIsValid ? "Please enter a valid User Name" : ""}
-      />
-      <TextField
-        fullWidth
-        sx={{ marginY: 1 }}
-        type="text"
-        label="Email"
-        onChange={emailChangeHandler}
-        onBlur={emailBlurHandler}
-        error={emailInputIsValid}
-        value={enteredEmail}
-        helperText={
-          emailInputIsValid ? "Please enter a valid email (@gmail.com)" : ""
-        }
-      />
-      <TextField
-        fullWidth
-        sx={{ marginY: 1 }}
-        type="number"
-        label="sallary ($)"
-        value={enteredSallary}
-        onChange={sallaryChangeHandler}
-        onBlur={sallaryBlurHandler}
-        error={sallaryInputIsValid}
-        helperText={sallaryInputIsValid ? "Please enter a valid Sallary" : ""}
-      />
-      <TextField fullWidth sx={{ marginY: 1 }} type="text" label="Date" />
+      <form action="" onSubmit={AddUserSubmitHandler}>
+        <TextField
+          fullWidth
+          sx={{ marginY: 1 }}
+          type="number"
+          label="Unique Id"
+          value={enteredId}
+          onChange={idChangeHanlder}
+          onBlur={idBlurHandler}
+          error={idInputIsValid}
+          helperText={
+            idInputIsValid ? "Please enter a valid Id (4 digits)" : ""
+          }
+        />
+        <TextField
+          fullWidth
+          sx={{ marginY: 1 }}
+          type="text"
+          label="User Name"
+          value={enteredName}
+          onChange={nameChangeHandler}
+          onBlur={nameBlurHanlder}
+          error={nameInputIsValid}
+          helperText={nameInputIsValid ? "Please enter a valid User Name" : ""}
+        />
+        <TextField
+          fullWidth
+          sx={{ marginY: 1 }}
+          type="text"
+          label="Email"
+          onChange={emailChangeHandler}
+          onBlur={emailBlurHandler}
+          error={emailInputIsValid}
+          value={enteredEmail}
+          helperText={
+            emailInputIsValid ? "Please enter a valid email (@gmail.com)" : ""
+          }
+        />
+        <TextField
+          fullWidth
+          sx={{ marginY: 1 }}
+          type="number"
+          label="sallary ($)"
+          value={enteredSallary}
+          onChange={sallaryChangeHandler}
+          onBlur={sallaryBlurHandler}
+          error={sallaryInputIsValid}
+          helperText={sallaryInputIsValid ? "Please enter a valid Sallary" : ""}
+        />
+        <TextField
+          fullWidth
+          sx={{ marginY: 1 }}
+          type="date"
+          value={enteredDate}
+          onChange={DateChangeHandler}
+          onBlur={DateBlurHandler}
+          error={dateInputIsValid}
+          helperText={dateInputIsValid ? "Please enter a valid Date" : ""}
+        />
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}
+        >
+          <Button variant="contained" color="success" disabled={!formIsValid}>
+            Add User
+          </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => ctx.modalStateHandler(false)}
+          >
+            Close
+          </Button>
+        </Stack>
+      </form>
     </div>
   );
 };
