@@ -10,6 +10,7 @@ const authContext = createContext({
 export const AuthContextProvider = (props) => {
   const [modalState, setModalState] = useState(false);
   const [loginUserName, setLoginUserName] = useState("");
+
   const modalStateHandler = (bolian) => {
     setModalState(bolian);
   };
