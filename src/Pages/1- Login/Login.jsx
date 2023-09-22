@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -12,10 +12,13 @@ import { toast } from "react-toastify";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
+import authContext from "../../context/authContext";
 
 const defaultTheme = createTheme();
-
 export default function SignIn() {
+  //!Context Data
+  const ctx = useContext(authContext);
+
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   //! State Management by using Custom hooks
@@ -51,6 +54,7 @@ export default function SignIn() {
         enteredEmail,
         enteredPassword
       );
+      ctx.setLoginUserName(response.user.displayName);
     } catch (err) {
       setIsLoading(false);
       return toast.error(err.message, {

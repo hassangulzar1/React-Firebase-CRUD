@@ -1,10 +1,10 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
-import ReactDom from "react-dom";
+import authContext from "../context/authContext";
 
 const style = {
   position: "absolute",
@@ -19,14 +19,19 @@ const style = {
 };
 
 export default function TransitionsModal(props) {
-  const [open, setOpen] = useState(false);
+  const ctx = useContext(authContext);
+
+  const fadeOut = () => {
+    ctx.modalStateHandler(false);
+  };
 
   return (
     <Fragment>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        open={open}
+        open={ctx.modalState}
+        onClose={fadeOut}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
         slotProps={{
@@ -35,7 +40,7 @@ export default function TransitionsModal(props) {
           },
         }}
       >
-        <Fade in={open}>
+        <Fade in={ctx.modalState}>
           <Box sx={style}>
             <Typography id="transition-modal-title" variant="h6" component="h2">
               Text in a modal

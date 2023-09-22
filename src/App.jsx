@@ -1,12 +1,11 @@
-import { Fragment } from "react";
 import "./App.css";
 import Routes from "./Pages/Routes";
-
+import { AuthContextProvider } from "./context/authContext";
 function App() {
   return (
-    <Fragment>
+    <AuthContextProvider>
       <Routes />
-    </Fragment>
+    </AuthContextProvider>
   );
 }
 

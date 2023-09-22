@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import { Button } from "@mui/material";
 import classes from "./AddUser.module.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -9,11 +9,18 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
+import authContext from "../../context/authContext";
 
 const AddUser = () => {
-  const [age, setAge] = React.useState("");
+  const ctx = useContext(authContext);
+
+  const modalOpenerHandler = () => {
+    ctx.modalStateHandler(true);
+  };
+
+  const [filter, setFilter] = useState("Name");
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setFilter(event.target.value);
   };
 
   //! Css Sx Styles
@@ -35,6 +42,7 @@ const AddUser = () => {
       {/* Add user Button  */}
       <div className={classes.mainDiv}>
         <Button
+          onClick={modalOpenerHandler}
           variant="outlined"
           size="medium"
           sx={{
@@ -56,7 +64,7 @@ const AddUser = () => {
               <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
               <Select
                 id="demo-simple-select"
-                value={age}
+                value={filter}
                 label="Filter By"
                 onChange={handleChange}
               >
