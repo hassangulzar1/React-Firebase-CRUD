@@ -1,11 +1,11 @@
-import React, { Fragment, useState, useContext } from "react";
+import React, { Fragment, useContext } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import authContext from "../context/authContext";
-
+import ModalInputs from "./ModalInputs";
 const style = {
   position: "absolute",
   top: "50%",
@@ -42,12 +42,15 @@ export default function TransitionsModal(props) {
       >
         <Fade in={ctx.modalState}>
           <Box sx={style}>
-            <Typography id="transition-modal-title" variant="h6" component="h2">
-              Text in a modal
+            <Typography
+              id="transition-modal-title"
+              variant="h5"
+              sx={{ fontWeight: "700" }}
+              component="h2"
+            >
+              ADD NEW USER
             </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
+            <ModalInputs />
           </Box>
         </Fade>
       </Modal>
