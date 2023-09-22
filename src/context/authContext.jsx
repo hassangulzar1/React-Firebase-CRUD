@@ -1,14 +1,14 @@
 import React, { createContext, useState } from "react";
 
 const authContext = createContext({
-  modalState: false,
+  modalState: true,
   loginUserName: "",
   modalStateHandler: (bolian) => {},
   setLoginUserName: (bolian) => {},
 });
 
 export const AuthContextProvider = (props) => {
-  const [modalState, setModalState] = useState(false);
+  const [modalState, setModalState] = useState(true);
   const [loginUserName, setLoginUserName] = useState("");
 
   const modalStateHandler = (bolian) => {
