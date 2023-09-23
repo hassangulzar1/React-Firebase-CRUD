@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { TextField } from "@mui/material";
 import useInput from "../hooks/use-input";
 import Button from "@mui/material/Button";
@@ -71,18 +71,11 @@ const ModalInputs = () => {
       date: enteredDate,
     });
 
-    // ctx.setDataState((prevState) => {
-    //   return [
-    //     ...prevState,
-    //     {
-    //       name: enteredName,
-    //       email: enteredEmail,
-    //       id: enteredId,
-    //       sallary: enteredSallary,
-    //       date: enteredDate,
-    //     },
-    //   ];
-    // });
+    resetId();
+    resetName();
+    emailReset();
+    DateReset();
+    sallaryReset();
   };
   return (
     <div
@@ -121,7 +114,7 @@ const ModalInputs = () => {
         <TextField
           fullWidth
           sx={{ marginY: 1 }}
-          type="text"
+          type="email"
           label="Email"
           onChange={emailChangeHandler}
           onBlur={emailBlurHandler}

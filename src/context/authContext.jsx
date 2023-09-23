@@ -1,8 +1,12 @@
 import React, { createContext, useState } from "react";
 import { app } from "../firebase-config";
-import { getFirestore } from "firebase/firestore";
+import {
+  addDoc,
+  arrayUnion,
+  getFirestore,
+  updateDoc,
+} from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
-
 const authContext = createContext({
   modalState: false,
   modalStateHandler: (bolian) => {},
@@ -12,18 +16,20 @@ const authContext = createContext({
 export const AuthContextProvider = (props) => {
   //! modal state or login user name state
   const [modalState, setModalState] = useState(false);
-  const [dataState, setDataState] = useState([]);
+  // const [dataState, setDataState] = useState([]);
 
   const modalStateHandler = (bolian) => {
     setModalState(bolian);
   };
   //! sending Data to fireStore
   const sendingDataHandler = async (Data) => {
+    console.log(Data);
     const db = getFirestore(app);
-
     try {
       let data = JSON.parse(localStorage.getItem("userData"));
-      await setDoc(doc(db, "users", data.uid), { Data });
+      await updateDoc(doc(db, "users", data.uid), {
+        arrayField: arrayUnion(Data),
+      });
     } catch (err) {
       alert("Error: " + err);
     }
@@ -34,7 +40,7 @@ export const AuthContextProvider = (props) => {
         modalState,
         modalStateHandler,
         sendingDataHandler,
-        setDataState,
+        // setDataState,
       }}
     >
       {props.children}
