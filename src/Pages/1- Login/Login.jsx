@@ -46,6 +46,7 @@ export default function SignIn() {
     formIsValid = true;
   }
   //! Submit Handler
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -55,8 +56,9 @@ export default function SignIn() {
         enteredEmail,
         enteredPassword
       );
-      ctx.loginUserName = response.user.displayName;
-      toast.success(`You have been loggedIn "${ctx.loginUserName}"`, {
+      ctx.setLoginUserName(response.user.displayName);
+
+      toast.success(`You have been loggedIn "${response.user.displayName}"`, {
         icon: "🚀",
         theme: "dark",
       });

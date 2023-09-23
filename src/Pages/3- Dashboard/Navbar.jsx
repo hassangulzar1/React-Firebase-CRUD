@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classes from "./Navbar.module.css";
 import logo from "../../assets/logo.png";
 import { Avatar } from "@mui/material";
@@ -19,6 +19,7 @@ const Navbar = () => {
       navigate("/");
     });
   };
+
   // styles
   const signOutStyles = {
     textDecoration: "underline",

@@ -14,14 +14,13 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 700,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  borderRadius: "10px",
   boxShadow: 24,
   p: 4,
 };
 
-export default function TransitionsModal(props) {
+export default function TransitionsModal() {
   const ctx = useContext(authContext);
-
   const fadeOut = () => {
     ctx.modalStateHandler(false);
   };
