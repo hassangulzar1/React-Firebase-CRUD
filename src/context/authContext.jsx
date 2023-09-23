@@ -7,7 +7,10 @@ import {
   getFirestore,
   updateDoc,
 } from "firebase/firestore";
+
 import { doc, setDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
+
 const authContext = createContext({
   modalState: false,
   modalStateHandler: (bolian) => {},
@@ -22,22 +25,31 @@ export const AuthContextProvider = (props) => {
   const modalStateHandler = (bolian) => {
     setModalState(bolian);
   };
+  let data = JSON.parse(localStorage.getItem("userData"));
+
   //! sending Data to fireStore
+  const db = getFirestore(app);
+  const document = doc(db, "users", data.uid);
+
   const sendingDataHandler = async (Data) => {
-    const db = getFirestore(app);
     try {
-      let data = JSON.parse(localStorage.getItem("userData"));
-
-      const document = doc(db, "users", data.uid);
       const docSnap = await getDoc(document);
-
       if (docSnap.exists()) {
+        toast.success(`UserName:- "${Data.name}" Added Successfully `, {
+          icon: "🚀",
+        });
+
         return updateDoc(document, { arrayField: arrayUnion(Data) });
       } else {
+        toast.success(`UserName:- "${Data.name}" Added Successfully `, {
+          icon: "🚀",
+        });
         return setDoc(document, { arrayField: [Data] });
       }
     } catch (err) {
-      alert("Error: " + err);
+      return toast.error(`Something Went Wrong ❌!!`, {
+        icon: "❌",
+      });
     }
   };
   return (
