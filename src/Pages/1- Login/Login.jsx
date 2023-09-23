@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -12,13 +12,11 @@ import { toast } from "react-toastify";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
-import authContext from "../../context/authContext";
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
   //!Context Data
-  const ctx = useContext(authContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -46,7 +44,6 @@ export default function SignIn() {
     formIsValid = true;
   }
   //! Submit Handler
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -56,8 +53,13 @@ export default function SignIn() {
         enteredEmail,
         enteredPassword
       );
-      ctx.setLoginUserName(response.user.displayName);
-
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          name: response.user.displayName,
+          uid: response.user.uid,
+        })
+      );
       toast.success(`You have been loggedIn "${response.user.displayName}"`, {
         icon: "🚀",
         theme: "dark",
@@ -75,6 +77,7 @@ export default function SignIn() {
     passwordReset();
     navigate("/dashboard");
   };
+
   //! Css Classes Objects
   const parentDiv = {
     background:

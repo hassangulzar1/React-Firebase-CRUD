@@ -1,19 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
 import classes from "./Navbar.module.css";
 import logo from "../../assets/logo.png";
 import { Avatar } from "@mui/material";
 import Button from "@mui/material/Button";
-import authContext from "../../context/authContext";
 import { auth } from "../../firebase-config";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Navbar = () => {
-  const ctx = React.useContext(authContext);
+  let userData = JSON.parse(localStorage.getItem("userData"));
   //!SignOut Handler
   const navigate = useNavigate();
   const signOutHanlder = () => {
+    localStorage.removeItem("userData");
     signOut(auth).then(() => {
       toast.success("logout Successfully!");
       navigate("/");
@@ -43,11 +43,11 @@ const Navbar = () => {
       </div>
       <div className={classes["sign-out"]}>
         <Avatar sx={{ bgcolor: "#A700D0" }}>
-          {ctx.loginUserName.slice(0, 1).toUpperCase()}
+          {userData.name.slice(0, 1).toUpperCase()}
         </Avatar>
         <div style={{ margin: "0 10px" }}>
           <p style={{ fontFamily: "Montserrat, sans-serif", margin: "2px 0" }}>
-            {ctx.loginUserName}
+            {userData.name}
           </p>
           <Button onClick={signOutHanlder} sx={signOutStyles}>
             SIGN OUT
