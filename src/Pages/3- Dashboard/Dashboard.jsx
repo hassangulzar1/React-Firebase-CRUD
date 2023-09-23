@@ -3,14 +3,15 @@ import Navbar from "./Navbar";
 import AddUser from "./AddUser";
 import UserTable from "./UserTable";
 import Modal from "../../Components/Modal";
+import { AuthContextProvider } from "../../context/authContext";
 const Dashboard = () => {
   return (
-    <Fragment>
+    <AuthContextProvider>
       <Modal />
       <Navbar />
       <AddUser />
       <UserTable />
-    </Fragment>
+    </AuthContextProvider>
   );
 };
 
