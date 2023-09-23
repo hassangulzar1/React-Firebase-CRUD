@@ -22,6 +22,8 @@ export const AuthContextProvider = (props) => {
   //! modal state or login user name state
   const [modalState, setModalState] = useState(false);
 
+  const idsArray = [];
+
   const modalStateHandler = (bolian) => {
     setModalState(bolian);
   };
@@ -34,7 +36,6 @@ export const AuthContextProvider = (props) => {
   const sendingDataHandler = async (Data) => {
     try {
       const docSnap = await getDoc(document);
-      const idsArray = [];
 
       await docSnap.data().arrayField.map((id) => {
         idsArray.push(id.id);

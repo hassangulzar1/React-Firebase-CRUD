@@ -60,7 +60,6 @@ const ModalInputs = () => {
   }
 
   // Submit Handler
-
   const AddUserSubmitHandler = (event) => {
     event.preventDefault();
     ctx.sendingDataHandler({
