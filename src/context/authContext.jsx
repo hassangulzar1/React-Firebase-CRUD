@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useCallback, useState } from "react";
 import { app } from "../firebase-config";
 import {
   addDoc,
@@ -15,26 +15,36 @@ const authContext = createContext({
   modalState: false,
   modalStateHandler: (bolian) => {},
   sendingDataHandler: (data) => {},
+  document: "",
 });
 
 export const AuthContextProvider = (props) => {
   //! modal state or login user name state
   const [modalState, setModalState] = useState(false);
-  // const [dataState, setDataState] = useState([]);
 
   const modalStateHandler = (bolian) => {
     setModalState(bolian);
   };
-  let data = JSON.parse(localStorage.getItem("userData"));
 
   //! sending Data to fireStore
+  let data = JSON.parse(localStorage.getItem("userData"));
   const db = getFirestore(app);
   const document = doc(db, "users", data.uid);
 
   const sendingDataHandler = async (Data) => {
     try {
       const docSnap = await getDoc(document);
-      if (docSnap.exists()) {
+      const idsArray = [];
+
+      await docSnap.data().arrayField.map((id) => {
+        idsArray.push(id.id);
+      });
+
+      if (idsArray.includes(Data.id)) {
+        return toast.error(`Not Submitted id already exists!!`, {
+          icon: "❌",
+        });
+      } else if (docSnap.exists()) {
         toast.success(`UserName:- "${Data.name}" Added Successfully `, {
           icon: "🚀",
         });
@@ -58,7 +68,7 @@ export const AuthContextProvider = (props) => {
         modalState,
         modalStateHandler,
         sendingDataHandler,
-        // setDataState,
+        document,
       }}
     >
       {props.children}
