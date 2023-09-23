@@ -4,8 +4,6 @@ import useInput from "../hooks/use-input";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import authContext from "../context/authContext";
-import { getFirestore } from "firebase/firestore/lite";
-import { app } from "../firebase-config";
 const ModalInputs = () => {
   const ctx = useContext(authContext);
   //! Inputs States
@@ -62,10 +60,29 @@ const ModalInputs = () => {
   }
 
   // Submit Handler
-  let db = getFirestore(app);
 
   const AddUserSubmitHandler = (event) => {
     event.preventDefault();
+    ctx.sendingDataHandler({
+      name: enteredName,
+      email: enteredEmail,
+      id: enteredId,
+      sallary: enteredSallary,
+      date: enteredDate,
+    });
+
+    // ctx.setDataState((prevState) => {
+    //   return [
+    //     ...prevState,
+    //     {
+    //       name: enteredName,
+    //       email: enteredEmail,
+    //       id: enteredId,
+    //       sallary: enteredSallary,
+    //       date: enteredDate,
+    //     },
+    //   ];
+    // });
   };
   return (
     <div
