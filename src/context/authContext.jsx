@@ -3,6 +3,7 @@ import { app } from "../firebase-config";
 import {
   addDoc,
   arrayUnion,
+  getDoc,
   getFirestore,
   updateDoc,
 } from "firebase/firestore";
@@ -23,13 +24,18 @@ export const AuthContextProvider = (props) => {
   };
   //! sending Data to fireStore
   const sendingDataHandler = async (Data) => {
-    console.log(Data);
     const db = getFirestore(app);
     try {
       let data = JSON.parse(localStorage.getItem("userData"));
-      await updateDoc(doc(db, "users", data.uid), {
-        arrayField: arrayUnion(Data),
-      });
+
+      const document = doc(db, "users", data.uid);
+      const docSnap = await getDoc(document);
+
+      if (docSnap.exists()) {
+        return updateDoc(document, { arrayField: arrayUnion(Data) });
+      } else {
+        return setDoc(document, { arrayField: [Data] });
+      }
     } catch (err) {
       alert("Error: " + err);
     }
