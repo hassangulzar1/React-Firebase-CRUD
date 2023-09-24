@@ -4,8 +4,12 @@ import useInput from "../hooks/use-input";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import authContext from "../context/authContext";
+import { getDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
+
 const ModalInputs = () => {
   const ctx = useContext(authContext);
+  const [idAlreadyExists, setIdAlreadyExists] = useState(false);
   //! Inputs States
   const {
     enteredValue: enteredId,
@@ -60,8 +64,22 @@ const ModalInputs = () => {
   }
 
   // Submit Handler
-  const AddUserSubmitHandler = (event) => {
+  const AddUserSubmitHandler = async (event) => {
     event.preventDefault();
+    ctx.setLoadingState(true);
+    const idsArray = [];
+    const docSnap = await getDoc(ctx.document);
+    await docSnap.data().arrayField.map((id) => {
+      idsArray.push(id.id);
+    });
+
+    if (idsArray.includes(enteredId)) {
+      setIdAlreadyExists(true);
+      ctx.setLoadingState(false);
+      return toast.error(`Id Already Exists!`, {
+        icon: "❌",
+      });
+    }
     ctx.sendingDataHandler({
       name: enteredName,
       email: enteredEmail,
@@ -70,6 +88,8 @@ const ModalInputs = () => {
       date: enteredDate,
     });
 
+    setIdAlreadyExists(false);
+    ctx.setLoadingState(false);
     resetId();
     resetName();
     emailReset();
@@ -94,7 +114,7 @@ const ModalInputs = () => {
           value={enteredId}
           onChange={idChangeHanlder}
           onBlur={idBlurHandler}
-          error={idInputIsValid}
+          error={idInputIsValid || idAlreadyExists}
           helperText={
             idInputIsValid ? "Please enter a valid Id (4 digits)" : ""
           }
@@ -155,7 +175,7 @@ const ModalInputs = () => {
             type="submit"
             disabled={!formIsValid}
           >
-            Add User
+            {ctx.loadingState ? "Loading..." : "ADD USERS"}
           </Button>
           <Button
             variant="outlined"
