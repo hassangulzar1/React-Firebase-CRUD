@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -77,6 +77,12 @@ export default function SignIn() {
     passwordReset();
     navigate("/dashboard");
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("userData")) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   //! Css Classes Objects
   const parentDiv = {
