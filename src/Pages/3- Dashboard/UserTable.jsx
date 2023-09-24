@@ -11,7 +11,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Container } from "@mui/material";
 import authContext from "../../context/authContext";
-import { doc, getDoc } from "firebase/firestore";
+import { getDoc } from "firebase/firestore";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+
 // !Styles
 const contentStyle = {
   textAlign: "center",
@@ -26,13 +29,27 @@ const UserTable = () => {
   let Content = (
     <p style={contentStyle}>no Data Found Enter some data or try again</p>
   );
+  const loadingText = (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        marginTop: "5rem",
+        height: "20vh",
+      }}
+    >
+      <CircularProgress />
+    </Box>
+  );
 
-  const [dataState, setDataState] = useState(Content);
+  const [dataState, setDataState] = useState("");
+  const [fallBackText, setFallbackText] = useState(loadingText);
 
   const dataGettingFunction = async () => {
     const docSnap = await getDoc(ctx.document);
 
     if (docSnap.exists()) {
+      setFallbackText("");
       setDataState(
         <TableBody>
           {docSnap.data().arrayField.map((data, i) => (
@@ -64,6 +81,8 @@ const UserTable = () => {
           ))}
         </TableBody>
       );
+    } else {
+      setFallbackText(Content);
     }
   };
 
@@ -88,6 +107,7 @@ const UserTable = () => {
           </TableHead>
           {dataState}
         </Table>
+        {fallBackText}
       </TableContainer>
     </Container>
   );

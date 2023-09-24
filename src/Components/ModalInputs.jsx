@@ -35,7 +35,7 @@ const ModalInputs = () => {
     onBlurHandler: emailBlurHandler,
     hasError: emailInputIsValid,
     reset: emailReset,
-  } = useInput((value) => value.includes("@gmail.com"));
+  } = useInput((value) => value.includes("@"));
   const {
     enteredValue: enteredSallary,
     isValid: sallaryIsValid,
@@ -139,9 +139,7 @@ const ModalInputs = () => {
           onBlur={emailBlurHandler}
           error={emailInputIsValid}
           value={enteredEmail}
-          helperText={
-            emailInputIsValid ? "Please enter a valid email (@gmail.com)" : ""
-          }
+          helperText={emailInputIsValid ? "Please enter a valid email (@)" : ""}
         />
         <TextField
           fullWidth
