@@ -6,7 +6,6 @@ import {
   getFirestore,
   updateDoc,
 } from "firebase/firestore";
-
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 

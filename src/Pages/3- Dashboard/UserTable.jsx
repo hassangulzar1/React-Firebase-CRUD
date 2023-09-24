@@ -14,6 +14,7 @@ import authContext from "../../context/authContext";
 import { getDoc } from "firebase/firestore";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import { toast } from "react-toastify";
 
 // !Styles
 const contentStyle = {
@@ -47,58 +48,62 @@ const UserTable = () => {
   const [fallBackText, setFallbackText] = useState(loadingText);
 
   const dataGettingFunction = async () => {
-    const docSnap = await getDoc(ctx.document);
+    try {
+      const docSnap = await getDoc(ctx.document);
 
-    if (docSnap.exists()) {
-      if (docSnap.data().arrayField.length == 0) {
-        setFallbackText(Content);
-      } else {
-        setFallbackText("");
-      }
-
-      const FilteredArray = docSnap.data().arrayField.filter((e) => {
-        if (ctx.filterBy === "Name") {
-          return e.name.includes(ctx.filterInputState);
-        } else if (ctx.filterBy === "Email") {
-          return e.email.includes(ctx.filterInputState);
+      if (docSnap.exists()) {
+        if (docSnap.data().arrayField.length == 0) {
+          setFallbackText(Content);
         } else {
-          return e.id.includes(ctx.filterInputState);
+          setFallbackText("");
         }
-      });
 
-      setDataState(
-        <TableBody>
-          {FilteredArray.map((data, i) => (
-            <TableRow
-              key={data.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {i + 1}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {data.id}
-              </TableCell>
-              <TableCell>{data.name}</TableCell>
-              <TableCell>{data.email}</TableCell>
-              <TableCell>{data.sallary}</TableCell>
-              <TableCell>{data.date}</TableCell>
-              <TableCell>
-                <ButtonGroup variant="contained">
-                  <Button sx={{ background: "green" }}>
-                    <EditIcon />
-                  </Button>
-                  <Button sx={{ background: "red" }}>
-                    <DeleteForeverIcon />
-                  </Button>
-                </ButtonGroup>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      );
-    } else {
-      setFallbackText(Content);
+        const FilteredArray = docSnap.data().arrayField.filter((e) => {
+          if (ctx.filterBy === "Name") {
+            return e.name.includes(ctx.filterInputState);
+          } else if (ctx.filterBy === "Email") {
+            return e.email.includes(ctx.filterInputState);
+          } else {
+            return e.id.includes(ctx.filterInputState);
+          }
+        });
+
+        setDataState(
+          <TableBody>
+            {FilteredArray.map((data, i) => (
+              <TableRow
+                key={data.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {i + 1}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {data.id}
+                </TableCell>
+                <TableCell>{data.name}</TableCell>
+                <TableCell>{data.email}</TableCell>
+                <TableCell>{data.sallary}</TableCell>
+                <TableCell>{data.date}</TableCell>
+                <TableCell>
+                  <ButtonGroup variant="contained">
+                    <Button sx={{ background: "green" }}>
+                      <EditIcon />
+                    </Button>
+                    <Button sx={{ background: "red" }}>
+                      <DeleteForeverIcon />
+                    </Button>
+                  </ButtonGroup>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        );
+      } else {
+        setFallbackText(Content);
+      }
+    } catch (error) {
+      return toast.error(error.message + "Check your Network and Try Again");
     }
   };
 
