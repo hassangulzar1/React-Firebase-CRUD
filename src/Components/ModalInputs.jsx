@@ -98,6 +98,7 @@ const ModalInputs = () => {
     emailReset();
     DateReset();
     sallaryReset();
+    ctx.modalStateHandler(false);
   };
   return (
     <div

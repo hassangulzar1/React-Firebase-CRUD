@@ -109,7 +109,7 @@ const UserTable = () => {
 
   useEffect(() => {
     dataGettingFunction();
-  }, [ctx.document]);
+  }, [dataState]);
 
   return (
     <Container>
