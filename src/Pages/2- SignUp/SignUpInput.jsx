@@ -1,8 +1,22 @@
 import React, { Fragment } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormHelperText from "@mui/material/FormHelperText";
 
 const SignUpInput = (props) => {
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <Fragment>
       <TextField
@@ -38,7 +52,7 @@ const SignUpInput = (props) => {
         onBlur={props.email.emailBlurHandler}
         value={props.email.enteredEmail}
       />
-      <TextField
+      {/* <TextField
         error={props.password.passwordInputIsValid}
         helperText={
           props.password.passwordInputIsValid
@@ -56,7 +70,44 @@ const SignUpInput = (props) => {
         onChange={props.password.passwordChangeHandler}
         onBlur={props.password.passwordBlurHandler}
         value={props.password.enteredPassword}
-      />
+      /> */}
+      <FormControl sx={{ marginTop: "15px" }} fullWidth variant="outlined">
+        <InputLabel
+          htmlFor="outlined-adornment-password"
+          error={props.password.passwordInputIsValid}
+        >
+          Password
+        </InputLabel>
+        <OutlinedInput
+          onChange={props.password.passwordChangeHandler}
+          onBlur={props.password.passwordBlurHandler}
+          value={props.password.enteredPassword}
+          error={props.password.passwordInputIsValid}
+          label="Password"
+          type={showPassword ? "text" : "password"}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+        <FormHelperText
+          error={props.password.passwordInputIsValid}
+          id="outlined-weight-helper-text"
+        >
+          {props.password.passwordInputIsValid
+            ? "Password must be 7 characters long"
+            : ""}
+        </FormHelperText>
+      </FormControl>
+
       <Button
         type="submit"
         loading={true}

@@ -63,7 +63,7 @@ export default function SignIn() {
       });
     } catch (err) {
       setIsLoading(false);
-      return toast.error(err.message, {
+      return toast.error(err.message.slice(9, err.message.length), {
         icon: "❌",
         theme: "dark",
       });
