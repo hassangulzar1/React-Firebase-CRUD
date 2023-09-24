@@ -69,9 +69,12 @@ const ModalInputs = () => {
     ctx.setLoadingState(true);
     const idsArray = [];
     const docSnap = await getDoc(ctx.document);
-    await docSnap.data().arrayField.map((id) => {
-      idsArray.push(id.id);
-    });
+
+    if (docSnap.exists() && docSnap.data().arrayField.length > 0) {
+      await docSnap.data().arrayField.map((id) => {
+        idsArray.push(id.id);
+      });
+    }
 
     if (idsArray.includes(enteredId)) {
       setIdAlreadyExists(true);

@@ -36,6 +36,8 @@ export const AuthContextProvider = (props) => {
   const sendingDataHandler = async (Data) => {
     try {
       const docSnap = await getDoc(document);
+      console.log(docSnap.data());
+
       if (docSnap.exists()) {
         toast.success(`UserName:- "${Data.name}" Added Successfully `, {
           icon: "🚀",

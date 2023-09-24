@@ -27,8 +27,9 @@ const contentStyle = {
 const UserTable = () => {
   const ctx = useContext(authContext);
   let Content = (
-    <p style={contentStyle}>no Data Found Enter some data or try again</p>
+    <p style={contentStyle}>Nothing Found Enter some data or try again!! 🙂</p>
   );
+
   const loadingText = (
     <Box
       sx={{
@@ -49,7 +50,12 @@ const UserTable = () => {
     const docSnap = await getDoc(ctx.document);
 
     if (docSnap.exists()) {
-      setFallbackText("");
+      if (docSnap.data().arrayField.length == 0) {
+        setFallbackText(Content);
+      } else {
+        setFallbackText("");
+      }
+
       setDataState(
         <TableBody>
           {docSnap.data().arrayField.map((data, i) => (
