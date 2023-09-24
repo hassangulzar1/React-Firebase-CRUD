@@ -175,7 +175,7 @@ const ModalInputs = () => {
             type="submit"
             disabled={!formIsValid}
           >
-            {ctx.loadingState ? "Loading..." : "ADD USERS"}
+            {ctx.loadingState ? "Loading..." : "ADD USER"}
           </Button>
           <Button
             variant="outlined"
