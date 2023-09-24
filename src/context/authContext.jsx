@@ -1,7 +1,9 @@
 import React, { createContext, useState } from "react";
 import { app } from "../firebase-config";
 import {
+  arrayRemove,
   arrayUnion,
+  deleteDoc,
   getDoc,
   getFirestore,
   updateDoc,
@@ -19,6 +21,17 @@ const authContext = createContext({
 });
 
 export const AuthContextProvider = (props) => {
+  //! Data coming from DataBase
+  let data = JSON.parse(localStorage.getItem("userData"));
+  const db = getFirestore(app);
+  const document = doc(db, "users", data.uid);
+
+  //! deleting the element in the array
+  const deleteListHandler = async (Id) => {
+    const docSnap = await getDoc(document);
+    const updatedArray = docSnap.data().arrayField.filter((e) => e.id !== Id);
+    return updateDoc(document, { arrayField: updatedArray });
+  };
   //* Filtering the list States
   const [filterBy, setFilter] = useState("Name");
   const [filterInputState, setFilterInputState] = useState("");
@@ -33,16 +46,10 @@ export const AuthContextProvider = (props) => {
   const modalStateHandler = (bolian) => {
     setModalState(bolian);
   };
-
   //! sending Data to fireStore
-  let data = JSON.parse(localStorage.getItem("userData"));
-  const db = getFirestore(app);
-  const document = doc(db, "users", data.uid);
-
   const sendingDataHandler = async (Data) => {
     try {
       const docSnap = await getDoc(document);
-      console.log(docSnap.data());
 
       if (docSnap.exists()) {
         toast.success(`UserName:- "${Data.name}" Added Successfully `, {
@@ -71,6 +78,7 @@ export const AuthContextProvider = (props) => {
         document,
         setLoadingState,
         loadingState,
+        deleteListHandler,
         //! Filtering States
 
         filterBy,

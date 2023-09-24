@@ -90,7 +90,12 @@ const UserTable = () => {
                     <Button sx={{ background: "green" }}>
                       <EditIcon />
                     </Button>
-                    <Button sx={{ background: "red" }}>
+                    <Button
+                      sx={{ background: "red" }}
+                      onClick={() => {
+                        ctx.deleteListHandler(data.id);
+                      }}
+                    >
                       <DeleteForeverIcon />
                     </Button>
                   </ButtonGroup>
