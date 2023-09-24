@@ -56,9 +56,19 @@ const UserTable = () => {
         setFallbackText("");
       }
 
+      const FilteredArray = docSnap.data().arrayField.filter((e) => {
+        if (ctx.filterBy === "Name") {
+          return e.name.includes(ctx.filterInputState);
+        } else if (ctx.filterBy === "Email") {
+          return e.email.includes(ctx.filterInputState);
+        } else {
+          return e.id.includes(ctx.filterInputState);
+        }
+      });
+
       setDataState(
         <TableBody>
-          {docSnap.data().arrayField.map((data, i) => (
+          {FilteredArray.map((data, i) => (
             <TableRow
               key={data.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

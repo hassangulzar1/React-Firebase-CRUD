@@ -13,14 +13,8 @@ import authContext from "../../context/authContext";
 
 const AddUser = () => {
   const ctx = useContext(authContext);
-
   const modalOpenerHandler = () => {
     ctx.modalStateHandler(true);
-  };
-
-  const [filter, setFilter] = useState("Name");
-  const handleChange = (event) => {
-    setFilter(event.target.value);
   };
 
   //! Css Sx Styles
@@ -64,9 +58,9 @@ const AddUser = () => {
               <InputLabel id="demo-simple-select-label">Filter By</InputLabel>
               <Select
                 id="demo-simple-select"
-                value={filter}
+                value={ctx.filterBy}
                 label="Filter By"
-                onChange={handleChange}
+                onChange={ctx.handleChange}
               >
                 <MenuItem value={"Name"}>Name</MenuItem>
                 <MenuItem value={"Email"}>Email</MenuItem>
@@ -75,7 +69,12 @@ const AddUser = () => {
             </FormControl>
           </Box>
 
-          <TextField id="outlined-search" label="Search" type="search" />
+          <TextField
+            id="outlined-search"
+            label="Search"
+            type="search"
+            onChange={(e) => ctx.setFilterInputState(e.target.value)}
+          />
         </Box>
       </Container>
     </Fragment>

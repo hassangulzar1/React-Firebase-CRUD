@@ -52,25 +52,6 @@ const SignUpInput = (props) => {
         onBlur={props.email.emailBlurHandler}
         value={props.email.enteredEmail}
       />
-      {/* <TextField
-        error={props.password.passwordInputIsValid}
-        helperText={
-          props.password.passwordInputIsValid
-            ? "Password must be 7 characters long"
-            : ""
-        }
-        margin="normal"
-        required
-        fullWidth
-        name="password"
-        label="Enter Your Password"
-        type="password"
-        id="password"
-        autoComplete="current-password"
-        onChange={props.password.passwordChangeHandler}
-        onBlur={props.password.passwordBlurHandler}
-        value={props.password.enteredPassword}
-      /> */}
       <FormControl sx={{ marginTop: "15px" }} fullWidth variant="outlined">
         <InputLabel
           htmlFor="outlined-adornment-password"

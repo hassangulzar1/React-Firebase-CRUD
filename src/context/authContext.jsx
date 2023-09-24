@@ -20,10 +20,17 @@ const authContext = createContext({
 });
 
 export const AuthContextProvider = (props) => {
-  //! modal state or login user name state
-  const [loadingState, setLoadingState] = useState(false);
-  const [modalState, setModalState] = useState(false);
+  //* Filtering the list States
+  const [filterBy, setFilter] = useState("Name");
+  const [filterInputState, setFilterInputState] = useState("");
+  const handleChange = (event) => {
+    setFilter(event.target.value);
+  };
 
+  // !Loading State for adding User
+  const [loadingState, setLoadingState] = useState(false);
+  //! modal state or login user name state
+  const [modalState, setModalState] = useState(false);
   const modalStateHandler = (bolian) => {
     setModalState(bolian);
   };
@@ -65,6 +72,13 @@ export const AuthContextProvider = (props) => {
         document,
         setLoadingState,
         loadingState,
+        //! Filtering States
+
+        filterBy,
+        setFilter,
+        filterInputState,
+        setFilterInputState,
+        handleChange,
       }}
     >
       {props.children}
