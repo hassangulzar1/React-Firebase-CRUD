@@ -24,11 +24,20 @@ export const AuthContextProvider = (props) => {
   const db = getFirestore(app);
   const document = doc(db, "users", data.uid);
 
+  // !setting empty array to firebase
+  let array = [];
+  setDoc(document, { arrayField: array });
+
   //! deleting the element in the array
   const deleteListHandler = async (Id) => {
-    const docSnap = await getDoc(document);
-    const updatedArray = docSnap.data().arrayField.filter((e) => e.id !== Id);
-    return updateDoc(document, { arrayField: updatedArray });
+    try {
+      const docSnap = await getDoc(document);
+      const updatedArray = docSnap.data().arrayField.filter((e) => e.id !== Id);
+      toast.success("User Deleted Successfully");
+      return updateDoc(document, { arrayField: updatedArray });
+    } catch (error) {
+      return toast.error(error.message);
+    }
   };
   //! Filtering States
   const [filterBy, setFilter] = useState("Name");
@@ -48,14 +57,9 @@ export const AuthContextProvider = (props) => {
   const sendingDataHandler = async (Data) => {
     try {
       const docSnap = await getDoc(document);
-
       if (docSnap.exists()) {
         toast.success(`UserName:- "${Data.name}" Added Successfully`);
-
         return updateDoc(document, { arrayField: arrayUnion(Data) });
-      } else {
-        toast.success(`UserName:- "${Data.name}" Added Successfully`);
-        return setDoc(document, { arrayField: [Data] });
       }
     } catch (err) {
       return toast.error(`Something Went Wrong ❌!!`);

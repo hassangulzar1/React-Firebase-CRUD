@@ -14,10 +14,12 @@ const Navbar = () => {
   const navigate = useNavigate();
   const signOutHanlder = () => {
     localStorage.removeItem("rememberMe");
-    signOut(auth).then(() => {
-      toast.success("logout Successfully!");
-      navigate("/");
-    });
+    signOut(auth)
+      .then(() => {
+        toast.success("logout Successfully!");
+        navigate("/");
+      })
+      .catch((err) => toast.error(err));
   };
 
   // styles

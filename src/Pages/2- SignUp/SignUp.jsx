@@ -63,15 +63,9 @@ export default function SignIn() {
       });
     } catch (err) {
       setIsLoading(false);
-      return toast.error(err.message.slice(9, err.message.length), {
-        icon: "❌",
-        theme: "dark",
-      });
+      return toast.error(err.message.slice(9, err.message.length));
     }
-    toast.success("Account created successfully!", {
-      icon: "🚀",
-      theme: "dark",
-    });
+    toast.success("Account created successfully!");
     setIsLoading(false);
     userNameReset();
     emailReset();
