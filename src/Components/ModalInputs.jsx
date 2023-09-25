@@ -4,21 +4,17 @@ import useInput from "../hooks/use-input";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import authContext from "../context/authContext";
-import { getDoc } from "firebase/firestore";
-import { toast } from "react-toastify";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 
 const ModalInputs = () => {
   const ctx = useContext(authContext);
-  const [idAlreadyExists, setIdAlreadyExists] = useState(false);
   //! Inputs States
-  const {
-    enteredValue: enteredId,
-    isValid: idIsValid,
-    inputChangeHandler: idChangeHanlder,
-    onBlurHandler: idBlurHandler,
-    hasError: idInputIsValid,
-    reset: resetId,
-  } = useInput((value) => value.length == 4);
+  const [genderState, setGenderState] = useState();
+
   const {
     enteredValue: enteredName,
     isValid: nameIsValid,
@@ -52,13 +48,14 @@ const ModalInputs = () => {
     hasError: dateInputIsValid,
     reset: DateReset,
   } = useInput((value) => value.trim() !== "");
+
   let formIsValid = false;
   if (
-    idIsValid &&
     nameIsValid &&
     emailIsValid &&
     sallaryIsValid &&
-    dateIsValid
+    dateIsValid &&
+    genderState
   ) {
     formIsValid = true;
   }
@@ -67,37 +64,25 @@ const ModalInputs = () => {
   const AddUserSubmitHandler = async (event) => {
     event.preventDefault();
     ctx.setLoadingState(true);
-    const idsArray = [];
-    const docSnap = await getDoc(ctx.document);
 
-    if (docSnap.exists() && docSnap.data().arrayField.length > 0) {
-      await docSnap.data().arrayField.map((id) => {
-        idsArray.push(id.id);
-      });
-    }
-
-    if (idsArray.includes(enteredId)) {
-      setIdAlreadyExists(true);
-      ctx.setLoadingState(false);
-      return toast.error(`Id Already Exists!`);
-    }
     ctx.sendingDataHandler({
+      id: Math.random().toString(36).slice(2),
       name: enteredName,
       email: enteredEmail,
-      id: enteredId,
+      gender: genderState,
       sallary: enteredSallary,
       date: enteredDate,
     });
-
-    setIdAlreadyExists(false);
     ctx.setLoadingState(false);
-    resetId();
+
+    setGenderState();
     resetName();
     emailReset();
     DateReset();
     sallaryReset();
     ctx.modalStateHandler(false);
   };
+
   return (
     <div
       style={{
@@ -108,19 +93,6 @@ const ModalInputs = () => {
       }}
     >
       <form action="" onSubmit={AddUserSubmitHandler}>
-        <TextField
-          fullWidth
-          sx={{ marginY: 1 }}
-          type="number"
-          label="Unique Id"
-          value={enteredId}
-          onChange={idChangeHanlder}
-          onBlur={idBlurHandler}
-          error={idInputIsValid || idAlreadyExists}
-          helperText={
-            idInputIsValid ? "Please enter a valid Id (4 digits)" : ""
-          }
-        />
         <TextField
           fullWidth
           sx={{ marginY: 1 }}
@@ -164,6 +136,23 @@ const ModalInputs = () => {
           error={dateInputIsValid}
           helperText={dateInputIsValid ? "Please enter a valid Date" : ""}
         />
+        <FormControl>
+          <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+            onChange={(e) => setGenderState(e.target.value)}
+          >
+            <FormControlLabel
+              value="female"
+              control={<Radio />}
+              label="Female"
+            />
+            <FormControlLabel value="male" control={<Radio />} label="Male" />
+            <FormControlLabel value="other" control={<Radio />} label="other" />
+          </RadioGroup>
+        </FormControl>
         <Stack
           direction="row"
           spacing={2}

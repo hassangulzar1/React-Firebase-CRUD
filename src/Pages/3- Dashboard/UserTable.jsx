@@ -79,12 +79,12 @@ const UserTable = () => {
                   {i + 1}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {data.id}
+                  {data.name}
                 </TableCell>
-                <TableCell>{data.name}</TableCell>
                 <TableCell>{data.email}</TableCell>
                 <TableCell>{data.sallary}</TableCell>
                 <TableCell>{data.date}</TableCell>
+                <TableCell>{data.gender}</TableCell>
                 <TableCell>
                   <ButtonGroup variant="contained">
                     <Button sx={{ background: "green" }}>
@@ -123,11 +123,11 @@ const UserTable = () => {
           <TableHead>
             <TableRow>
               <TableCell>No.</TableCell>
-              <TableCell>Unique ID.</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Sallary($)</TableCell>
               <TableCell>Date</TableCell>
+              <TableCell>Gender</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>

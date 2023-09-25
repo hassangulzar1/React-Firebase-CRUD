@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { app } from "../firebase-config";
 import {
   arrayUnion,
@@ -23,11 +23,18 @@ export const AuthContextProvider = (props) => {
   let data = JSON.parse(localStorage.getItem("userData"));
   const db = getFirestore(app);
   const document = doc(db, "users", data.uid);
-
   // !setting empty array to firebase
-  let array = [];
-  setDoc(document, { arrayField: array });
+  const settingEmptyArray = async () => {
+    const docSnap = await getDoc(document);
+    let array = [];
+    if (!docSnap.exists()) {
+      setDoc(document, { arrayField: array });
+    }
+  };
 
+  useEffect(() => {
+    settingEmptyArray();
+  }, []);
   //! deleting the element in the array
   const deleteListHandler = async (Id) => {
     try {
