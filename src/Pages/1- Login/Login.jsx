@@ -17,8 +17,14 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   //!Context Data
-
   const [isLoading, setIsLoading] = useState(false);
+
+  //! Remember Me Logic
+  let rememberMe = false;
+  const RememberMeHandler = (e) => {
+    rememberMe = e;
+  };
+
   const navigate = useNavigate();
   //! State Management by using Custom hooks
   const {
@@ -53,6 +59,9 @@ export default function SignIn() {
         enteredEmail,
         enteredPassword
       );
+      if (rememberMe) {
+        localStorage.setItem("rememberMe", JSON.stringify("true"));
+      }
 
       localStorage.setItem(
         "userData",
@@ -74,7 +83,7 @@ export default function SignIn() {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("userData")) {
+    if (localStorage.getItem("rememberMe")) {
       navigate("/dashboard");
     }
   }, []);
@@ -125,6 +134,7 @@ export default function SignIn() {
                   emailInputIsValid,
                   emailIsValid,
                 }}
+                checkbox={RememberMeHandler}
                 password={{
                   enteredPassword,
                   passwordChangeHandler,

@@ -1,9 +1,7 @@
 import React, { createContext, useState } from "react";
 import { app } from "../firebase-config";
 import {
-  arrayRemove,
   arrayUnion,
-  deleteDoc,
   getDoc,
   getFirestore,
   updateDoc,
@@ -32,7 +30,7 @@ export const AuthContextProvider = (props) => {
     const updatedArray = docSnap.data().arrayField.filter((e) => e.id !== Id);
     return updateDoc(document, { arrayField: updatedArray });
   };
-  //* Filtering the list States
+  //! Filtering States
   const [filterBy, setFilter] = useState("Name");
   const [filterInputState, setFilterInputState] = useState("");
   const handleChange = (event) => {

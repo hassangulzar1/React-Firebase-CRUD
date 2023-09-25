@@ -9,6 +9,8 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormHelperText from "@mui/material/FormHelperText";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const LoginInputs = (props) => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -16,7 +18,6 @@ const LoginInputs = (props) => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
   return (
     <Fragment>
       <TextField
@@ -70,6 +71,11 @@ const LoginInputs = (props) => {
             : ""}
         </FormHelperText>
       </FormControl>
+      <FormControlLabel
+        onChange={(e) => props.checkbox(e.target.checked)}
+        control={<Checkbox value="remember" color="primary" />}
+        label="Remember me"
+      />
 
       <Button
         type="submit"
