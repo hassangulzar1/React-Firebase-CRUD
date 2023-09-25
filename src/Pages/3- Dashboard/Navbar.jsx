@@ -14,6 +14,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const signOutHanlder = () => {
     localStorage.removeItem("rememberMe");
+    localStorage.removeItem("userData");
     signOut(auth)
       .then(() => {
         toast.success("logout Successfully!");

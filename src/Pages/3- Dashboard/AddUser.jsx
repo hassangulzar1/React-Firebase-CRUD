@@ -64,7 +64,7 @@ const AddUser = () => {
               >
                 <MenuItem value={"Name"}>Name</MenuItem>
                 <MenuItem value={"Email"}>Email</MenuItem>
-                <MenuItem value={"Id"}>Id</MenuItem>
+                <MenuItem value={"Gender"}>Gender</MenuItem>
               </Select>
             </FormControl>
           </Box>

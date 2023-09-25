@@ -64,7 +64,7 @@ const UserTable = () => {
           } else if (ctx.filterBy === "Email") {
             return e.email.includes(ctx.filterInputState);
           } else {
-            return e.id.includes(ctx.filterInputState);
+            return e.gender.includes(ctx.filterInputState);
           }
         });
         //!   <------------------->
@@ -108,7 +108,9 @@ const UserTable = () => {
         setFallbackText(Content);
       }
     } catch (error) {
-      return toast.error(error.message + "Check your Network and Try Again");
+      if (localStorage.getItem("userData")) {
+        return toast.error(error.message + "Check your Network and Try Again");
+      }
     }
   };
 
