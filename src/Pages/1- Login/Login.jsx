@@ -53,6 +53,7 @@ export default function SignIn() {
         enteredEmail,
         enteredPassword
       );
+
       localStorage.setItem(
         "userData",
         JSON.stringify({
@@ -60,16 +61,10 @@ export default function SignIn() {
           uid: response.user.uid,
         })
       );
-      toast.success(`You have been loggedIn "${response.user.displayName}"`, {
-        icon: "🚀",
-        theme: "dark",
-      });
+      toast.success(`You have been loggedIn "${response.user.displayName}"`);
     } catch (err) {
       setIsLoading(false);
-      return toast.error(err.message, {
-        icon: "❌",
-        theme: "dark",
-      });
+      return toast.error(err.message);
     }
 
     setIsLoading(false);

@@ -57,7 +57,7 @@ const UserTable = () => {
         } else {
           setFallbackText("");
         }
-
+        //! Filtering Data
         const FilteredArray = docSnap.data().arrayField.filter((e) => {
           if (ctx.filterBy === "Name") {
             return e.name.includes(ctx.filterInputState);
@@ -67,7 +67,7 @@ const UserTable = () => {
             return e.id.includes(ctx.filterInputState);
           }
         });
-
+        //!   <------------------->
         setDataState(
           <TableBody>
             {FilteredArray.map((data, i) => (

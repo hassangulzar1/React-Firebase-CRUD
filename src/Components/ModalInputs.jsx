@@ -79,9 +79,7 @@ const ModalInputs = () => {
     if (idsArray.includes(enteredId)) {
       setIdAlreadyExists(true);
       ctx.setLoadingState(false);
-      return toast.error(`Id Already Exists!`, {
-        icon: "❌",
-      });
+      return toast.error(`Id Already Exists!`);
     }
     ctx.sendingDataHandler({
       name: enteredName,

@@ -52,21 +52,15 @@ export const AuthContextProvider = (props) => {
       const docSnap = await getDoc(document);
 
       if (docSnap.exists()) {
-        toast.success(`UserName:- "${Data.name}" Added Successfully `, {
-          icon: "🚀",
-        });
+        toast.success(`UserName:- "${Data.name}" Added Successfully`);
 
         return updateDoc(document, { arrayField: arrayUnion(Data) });
       } else {
-        toast.success(`UserName:- "${Data.name}" Added Successfully `, {
-          icon: "🚀",
-        });
+        toast.success(`UserName:- "${Data.name}" Added Successfully`);
         return setDoc(document, { arrayField: [Data] });
       }
     } catch (err) {
-      return toast.error(`Something Went Wrong ❌!!`, {
-        icon: "❌",
-      });
+      return toast.error(`Something Went Wrong ❌!!`);
     }
   };
   return (
