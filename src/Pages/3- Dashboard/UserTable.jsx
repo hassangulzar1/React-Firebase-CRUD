@@ -86,7 +86,6 @@ const UserTable = () => {
           </TableHead>
           {dataState}
         </Table>
-        {ctx.fallbackText}
       </TableContainer>
     </Container>
   );

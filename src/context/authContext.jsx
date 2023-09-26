@@ -42,10 +42,13 @@ export const AuthContextProvider = (props) => {
 
   //! Editing Mode logic starts here
   const [editingMode, setEditingMode] = useState(false);
+  const [idAndIndex, setIdAndIndex] = useState({ id: "", index: "" });
+
   const editingModeHandler = (id, index) => {
+    setIdAndIndex({ id: id, index: index });
+    setModalState(true);
     setEditingMode(true);
   };
-
   //! deleting the element in the array
   const deleteListHandler = (Id) => {
     getDoc(document)
@@ -73,6 +76,7 @@ export const AuthContextProvider = (props) => {
   const [modalState, setModalState] = useState(false);
   const modalStateHandler = (bolian) => {
     setModalState(bolian);
+    setEditingMode(false);
   };
   //! sending Data to fireStore
   const sendingDataHandler = (Data) => {
@@ -111,7 +115,7 @@ export const AuthContextProvider = (props) => {
         setEditingMode,
         editingModeHandler,
         dataArray,
-        fallbackText,
+        idAndIndex,
         //! Filtering States
         filterBy,
         setFilter,

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 import useInput from "../hooks/use-input";
 import Button from "@mui/material/Button";
@@ -61,6 +61,18 @@ const ModalInputs = () => {
   }
 
   //! Submit Handler
+  useEffect(() => {
+    if (ctx.editingMode) {
+      let particularElement = ctx.dataArray[ctx.idAndIndex.index];
+
+      nameChangeHandler(particularElement.name);
+      emailChangeHandler(particularElement.email);
+      sallaryChangeHandler(particularElement.sallary);
+      DateChangeHandler(particularElement.date);
+      setGenderState(particularElement.gender);
+    }
+  }, []);
+
   const AddUserSubmitHandler = async (event) => {
     event.preventDefault();
     ctx.setLoadingState(true);
@@ -99,7 +111,7 @@ const ModalInputs = () => {
           type="text"
           label="User Name"
           value={enteredName}
-          onChange={nameChangeHandler}
+          onChange={(e) => nameChangeHandler(e.target.value)}
           onBlur={nameBlurHanlder}
           error={nameInputIsValid}
           helperText={nameInputIsValid ? "Please enter a valid User Name" : ""}
@@ -109,7 +121,7 @@ const ModalInputs = () => {
           sx={{ marginY: 1 }}
           type="email"
           label="Email"
-          onChange={emailChangeHandler}
+          onChange={(e) => emailChangeHandler(e.target.value)}
           onBlur={emailBlurHandler}
           error={emailInputIsValid}
           value={enteredEmail}
@@ -121,7 +133,7 @@ const ModalInputs = () => {
           type="number"
           label="sallary ($)"
           value={enteredSallary}
-          onChange={sallaryChangeHandler}
+          onChange={(e) => sallaryChangeHandler(e.target.value)}
           onBlur={sallaryBlurHandler}
           error={sallaryInputIsValid}
           helperText={sallaryInputIsValid ? "Please enter a valid Sallary" : ""}
@@ -131,7 +143,7 @@ const ModalInputs = () => {
           sx={{ marginY: 1 }}
           type="date"
           value={enteredDate}
-          onChange={DateChangeHandler}
+          onChange={(e) => DateChangeHandler(e.target.value)}
           onBlur={DateBlurHandler}
           error={dateInputIsValid}
           helperText={dateInputIsValid ? "Please enter a valid Date" : ""}
@@ -146,11 +158,22 @@ const ModalInputs = () => {
           >
             <FormControlLabel
               value="female"
+              checked={genderState === "female"}
               control={<Radio />}
               label="Female"
             />
-            <FormControlLabel value="male" control={<Radio />} label="Male" />
-            <FormControlLabel value="other" control={<Radio />} label="other" />
+            <FormControlLabel
+              value="male"
+              checked={genderState === "male"}
+              control={<Radio />}
+              label="Male"
+            />
+            <FormControlLabel
+              value="other"
+              checked={genderState === "other"}
+              control={<Radio />}
+              label="other"
+            />
           </RadioGroup>
         </FormControl>
         <Stack
@@ -160,11 +183,11 @@ const ModalInputs = () => {
         >
           <Button
             variant="contained"
-            color="success"
+            color={ctx.editingMode ? "info" : "success"}
             type="submit"
             disabled={!formIsValid}
           >
-            {ctx.loadingState ? "Loading..." : "ADD USER"}
+            {ctx.editingMode ? "Update" : "ADD USER"}
           </Button>
           <Button
             variant="outlined"

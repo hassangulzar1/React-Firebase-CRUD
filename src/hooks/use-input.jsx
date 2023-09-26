@@ -7,8 +7,8 @@ const useInput = (inputValue) => {
   const isValid = inputValue(enteredValue);
   const hasError = !isValid && onBlur;
 
-  const inputChangeHandler = (event) => {
-    setEnteredValue(event.target.value);
+  const inputChangeHandler = (value) => {
+    setEnteredValue(value);
   };
 
   const onBlurHandler = () => {
