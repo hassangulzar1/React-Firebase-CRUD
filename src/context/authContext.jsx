@@ -116,6 +116,7 @@ export const AuthContextProvider = (props) => {
         editingModeHandler,
         dataArray,
         idAndIndex,
+        setDataTracking,
         //! Filtering States
         filterBy,
         setFilter,

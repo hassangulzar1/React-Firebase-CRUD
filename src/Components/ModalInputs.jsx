@@ -9,6 +9,8 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import { updateDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 const ModalInputs = () => {
   const ctx = useContext(authContext);
@@ -75,24 +77,41 @@ const ModalInputs = () => {
 
   const AddUserSubmitHandler = async (event) => {
     event.preventDefault();
-    ctx.setLoadingState(true);
+    if (ctx.editingMode) {
+      ctx.setLoadingState(true);
+      let array = ctx.dataArray;
+      array[ctx.idAndIndex.index] = {
+        id: ctx.idAndIndex.id,
+        name: enteredName,
+        email: enteredEmail,
+        gender: genderState,
+        sallary: enteredSallary,
+        date: enteredDate,
+      };
+      updateDoc(ctx.document, { arrayField: array }).then(() => {
+        ctx.setDataTracking((prevState) => !prevState);
+        ctx.modalStateHandler(false);
+        ctx.setLoadingState(false);
+        return toast.success("User Data Updated Successfully");
+      });
+    } else {
+      ctx.sendingDataHandler({
+        id: Math.random().toString(36).slice(2),
+        name: enteredName,
+        email: enteredEmail,
+        gender: genderState,
+        sallary: enteredSallary,
+        date: enteredDate,
+      });
+      ctx.setLoadingState(false);
 
-    ctx.sendingDataHandler({
-      id: Math.random().toString(36).slice(2),
-      name: enteredName,
-      email: enteredEmail,
-      gender: genderState,
-      sallary: enteredSallary,
-      date: enteredDate,
-    });
-    ctx.setLoadingState(false);
-
-    setGenderState();
-    resetName();
-    emailReset();
-    DateReset();
-    sallaryReset();
-    ctx.modalStateHandler(false);
+      setGenderState();
+      resetName();
+      emailReset();
+      DateReset();
+      sallaryReset();
+      ctx.modalStateHandler(false);
+    }
   };
 
   return (
@@ -187,7 +206,11 @@ const ModalInputs = () => {
             type="submit"
             disabled={!formIsValid}
           >
-            {ctx.editingMode ? "Update" : "ADD USER"}
+            {ctx.editingMode
+              ? ctx.loadingState
+                ? "Updating..."
+                : "Update"
+              : "ADD USER"}
           </Button>
           <Button
             variant="outlined"
