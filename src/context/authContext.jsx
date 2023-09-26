@@ -47,18 +47,19 @@ export const AuthContextProvider = (props) => {
   };
 
   //! deleting the element in the array
-  const deleteListHandler = useCallback((Id) => {
+  const deleteListHandler = (Id) => {
     getDoc(document)
-      .then((doc) => {
-        const updatedArray = doc.data().arrayField.filter((e) => e.id !== Id);
+      .then(() => {
+        const updatedArray = dataArray.filter((e) => Id !== e.id);
         toast.success("User Deleted Successfully");
-        return updateDoc(document, { arrayField: updatedArray });
+        return updateDoc(document, { arrayField: updatedArray }).then(() =>
+          setDataTracking((prevState) => !prevState)
+        );
       })
       .catch((err) => {
         return toast.error(err.message);
       });
-  }, []);
-
+  };
   //! Filtering States
   const [filterBy, setFilter] = useState("Name");
   const [filterInputState, setFilterInputState] = useState("");
@@ -68,13 +69,13 @@ export const AuthContextProvider = (props) => {
 
   // !Loading State for adding User
   const [loadingState, setLoadingState] = useState(false);
-  //! modal state or login user name state
+  //! modal state
   const [modalState, setModalState] = useState(false);
   const modalStateHandler = (bolian) => {
     setModalState(bolian);
   };
   //! sending Data to fireStore
-  const sendingDataHandler = useCallback((Data) => {
+  const sendingDataHandler = (Data) => {
     getDoc(document)
       .then(() => {
         toast.success(`UserName:- "${Data.name}" Added Successfully`);
@@ -85,7 +86,7 @@ export const AuthContextProvider = (props) => {
       .catch((err) => {
         return toast.error(`Something Went Wrong ❌!!`);
       });
-  }, []);
+  };
 
   //! updating Array of Data
   useEffect(() => {

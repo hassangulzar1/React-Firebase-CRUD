@@ -61,32 +61,27 @@ const ModalInputs = () => {
     formIsValid = true;
   }
 
-  const editingModeHandler = () => {};
-  // Submit Handler
+  //! Submit Handler
   const AddUserSubmitHandler = async (event) => {
-    if (ctx.editingMode) {
-      editingModeHandler();
-    } else {
-      event.preventDefault();
-      ctx.setLoadingState(true);
+    event.preventDefault();
+    ctx.setLoadingState(true);
 
-      ctx.sendingDataHandler({
-        id: Math.random().toString(36).slice(2),
-        name: enteredName,
-        email: enteredEmail,
-        gender: genderState,
-        sallary: enteredSallary,
-        date: enteredDate,
-      });
-      ctx.setLoadingState(false);
+    ctx.sendingDataHandler({
+      id: Math.random().toString(36).slice(2),
+      name: enteredName,
+      email: enteredEmail,
+      gender: genderState,
+      sallary: enteredSallary,
+      date: enteredDate,
+    });
+    ctx.setLoadingState(false);
 
-      setGenderState();
-      resetName();
-      emailReset();
-      DateReset();
-      sallaryReset();
-      ctx.modalStateHandler(false);
-    }
+    setGenderState();
+    resetName();
+    emailReset();
+    DateReset();
+    sallaryReset();
+    ctx.modalStateHandler(false);
   };
 
   return (

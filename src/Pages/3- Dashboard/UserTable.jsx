@@ -44,33 +44,40 @@ const UserTable = () => {
     </Box>
   );
 
-  const [dataState, setDataState] = useState("");
   const [fallBackText, setFallbackText] = useState(loadingText);
-  console.log(ctx.dataArray);
 
-  const dataGettingFunction = async () => {
-    let dataArray = await ctx.dataArray;
-    try {
-      const docSnap = await getDoc(ctx.document);
+  const [FilteredArray, setFilteredArray] = useState([]);
 
-      if (docSnap.exists()) {
-        if (docSnap.data().arrayField.length == 0) {
-          setFallbackText(Content);
-        } else {
-          setFallbackText("");
-        }
-        //! Filtering Data
-        const FilteredArray = docSnap.data().arrayField.filter((e) => {
-          if (ctx.filterBy === "Name") {
-            return e.name.includes(ctx.filterInputState);
-          } else if (ctx.filterBy === "Email") {
-            return e.email.includes(ctx.filterInputState);
-          } else {
-            return e.gender.includes(ctx.filterInputState);
-          }
-        });
-        //!   <------------------->
-        setDataState(
+  useEffect(() => {
+    setFallbackText(loadingText);
+    const FilteredArray = ctx.dataArray.filter((e) => {
+      if (ctx.filterBy === "Name") {
+        return e.name.includes(ctx.filterInputState);
+      } else if (ctx.filterBy === "Email") {
+        return e.email.includes(ctx.filterInputState);
+      } else {
+        return e.gender.includes(ctx.filterInputState);
+      }
+    });
+    setFilteredArray(FilteredArray);
+    setFallbackText("");
+  }, [ctx.dataArray, ctx.filterInputState]);
+
+  return (
+    <Container>
+      <TableContainer>
+        <Table sx={{ minWidth: 650 }}>
+          <TableHead>
+            <TableRow>
+              <TableCell>No.</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Sallary($)</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>Gender</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
           <TableBody>
             {FilteredArray.map((data, i) => (
               <TableRow
@@ -108,39 +115,8 @@ const UserTable = () => {
               </TableRow>
             ))}
           </TableBody>
-        );
-      } else {
-        setFallbackText(Content);
-      }
-    } catch (error) {
-      if (localStorage.getItem("userData")) {
-        return toast.error(error.message + "Check your Network and Try Again");
-      }
-    }
-  };
-
-  useEffect(() => {
-    dataGettingFunction();
-  }, []);
-
-  return (
-    <Container>
-      <TableContainer>
-        <Table sx={{ minWidth: 650 }}>
-          <TableHead>
-            <TableRow>
-              <TableCell>No.</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Sallary($)</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Gender</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          {dataState}
         </Table>
-        {fallBackText}
+        {/* {fallBackText} */}
       </TableContainer>
     </Container>
   );
