@@ -44,12 +44,11 @@ const UserTable = () => {
     </Box>
   );
 
+  const [dataState, setDataState] = useState("");
   const [fallBackText, setFallbackText] = useState(loadingText);
-
-  const [FilteredArray, setFilteredArray] = useState([]);
+  //! Changing user table based on their current state
 
   useEffect(() => {
-    setFallbackText(loadingText);
     const FilteredArray = ctx.dataArray.filter((e) => {
       if (ctx.filterBy === "Name") {
         return e.name.includes(ctx.filterInputState);
@@ -59,9 +58,46 @@ const UserTable = () => {
         return e.gender.includes(ctx.filterInputState);
       }
     });
-    setFilteredArray(FilteredArray);
-    setFallbackText("");
-  }, [ctx.dataArray, ctx.filterInputState]);
+    setDataState(
+      <TableBody>
+        {FilteredArray.map((data, i) => (
+          <TableRow
+            key={data.id}
+            sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+          >
+            <TableCell component="th" scope="row">
+              {i + 1}
+            </TableCell>
+            <TableCell component="th" scope="row">
+              {data.name}
+            </TableCell>
+            <TableCell>{data.email}</TableCell>
+            <TableCell>{data.sallary}</TableCell>
+            <TableCell>{data.date}</TableCell>
+            <TableCell>{data.gender}</TableCell>
+            <TableCell>
+              <ButtonGroup variant="contained">
+                <Button
+                  sx={{ background: "green" }}
+                  onClick={() => ctx.editingModeHandler(data.id, i)}
+                >
+                  <EditIcon />
+                </Button>
+                <Button
+                  sx={{ background: "red" }}
+                  onClick={() => {
+                    ctx.deleteListHandler(data.id);
+                  }}
+                >
+                  <DeleteForeverIcon />
+                </Button>
+              </ButtonGroup>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    );
+  }, [ctx.dataArray]);
 
   return (
     <Container>
@@ -78,45 +114,9 @@ const UserTable = () => {
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {FilteredArray.map((data, i) => (
-              <TableRow
-                key={data.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {i + 1}
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  {data.name}
-                </TableCell>
-                <TableCell>{data.email}</TableCell>
-                <TableCell>{data.sallary}</TableCell>
-                <TableCell>{data.date}</TableCell>
-                <TableCell>{data.gender}</TableCell>
-                <TableCell>
-                  <ButtonGroup variant="contained">
-                    <Button
-                      sx={{ background: "green" }}
-                      onClick={() => ctx.editingModeHandler(data.id, i)}
-                    >
-                      <EditIcon />
-                    </Button>
-                    <Button
-                      sx={{ background: "red" }}
-                      onClick={() => {
-                        ctx.deleteListHandler(data.id);
-                      }}
-                    >
-                      <DeleteForeverIcon />
-                    </Button>
-                  </ButtonGroup>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+          {dataState}
         </Table>
-        {/* {fallBackText} */}
+        {dataState == "" && fallBackText}
       </TableContainer>
     </Container>
   );
