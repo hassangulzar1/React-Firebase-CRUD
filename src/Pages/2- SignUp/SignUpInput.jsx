@@ -31,7 +31,7 @@ const SignUpInput = (props) => {
         label="Enter Your Username"
         name="text"
         autoComplete="text"
-        onChange={props.userName.userNameChangeHandler}
+        onChange={(e) => props.userName.userNameChangeHandler(e.target.value)}
         onBlur={props.userName.userNameBlurHandler}
         value={props.userName.enteredUserName}
       />
@@ -48,7 +48,7 @@ const SignUpInput = (props) => {
         label="Enter Your Email"
         name="email"
         autoComplete="email"
-        onChange={props.email.emailChangeHandler}
+        onChange={(e) => props.email.emailChangeHandler(e.target.value)}
         onBlur={props.email.emailBlurHandler}
         value={props.email.enteredEmail}
       />
@@ -60,7 +60,7 @@ const SignUpInput = (props) => {
           Password
         </InputLabel>
         <OutlinedInput
-          onChange={props.password.passwordChangeHandler}
+          onChange={(e) => props.password.passwordChangeHandler(e.target.value)}
           onBlur={props.password.passwordBlurHandler}
           value={props.password.enteredPassword}
           error={props.password.passwordInputIsValid}

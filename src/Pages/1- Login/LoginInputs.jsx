@@ -31,7 +31,7 @@ const LoginInputs = (props) => {
         label="Email"
         name="email"
         autoComplete="email"
-        onChange={props.email.emailChangeHandler}
+        onChange={(e) => props.email.emailChangeHandler(e.target.value)}
         onBlur={props.email.emailBlurHandler}
         value={props.email.enteredEmail}
       />
@@ -43,7 +43,7 @@ const LoginInputs = (props) => {
           Password
         </InputLabel>
         <OutlinedInput
-          onChange={props.password.passwordChangeHandler}
+          onChange={(e) => props.password.passwordChangeHandler(e.target.value)}
           onBlur={props.password.passwordBlurHandler}
           value={props.password.enteredPassword}
           error={props.password.passwordInputIsValid}
