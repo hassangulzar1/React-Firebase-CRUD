@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 import { app } from "../firebase-config";
 import {
   arrayUnion,
@@ -19,10 +19,12 @@ const authContext = createContext({
 });
 
 export const AuthContextProvider = (props) => {
+  const [dataTracking, setDataTracking] = useState(false);
   //! Data coming from DataBase
   let data = JSON.parse(localStorage.getItem("userData"));
   const db = getFirestore(app);
   const document = doc(db, "users", data.uid);
+
   // !setting empty array to firebase
   const settingEmptyArray = async () => {
     const docSnap = await getDoc(document);
@@ -31,21 +33,32 @@ export const AuthContextProvider = (props) => {
       setDoc(document, { arrayField: array });
     }
   };
-
   useEffect(() => {
     settingEmptyArray();
   }, []);
-  //! deleting the element in the array
-  const deleteListHandler = async (Id) => {
-    try {
-      const docSnap = await getDoc(document);
-      const updatedArray = docSnap.data().arrayField.filter((e) => e.id !== Id);
-      toast.success("User Deleted Successfully");
-      return updateDoc(document, { arrayField: updatedArray });
-    } catch (error) {
-      return toast.error(error.message);
-    }
+
+  //! all Data Array
+  const [dataArray, setDataArray] = useState([]);
+
+  //! Editing Mode logic starts here
+  const [editingMode, setEditingMode] = useState(false);
+  const editingModeHandler = (id, index) => {
+    setEditingMode(true);
   };
+
+  //! deleting the element in the array
+  const deleteListHandler = useCallback((Id) => {
+    getDoc(document)
+      .then((doc) => {
+        const updatedArray = doc.data().arrayField.filter((e) => e.id !== Id);
+        toast.success("User Deleted Successfully");
+        return updateDoc(document, { arrayField: updatedArray });
+      })
+      .catch((err) => {
+        return toast.error(err.message);
+      });
+  }, []);
+
   //! Filtering States
   const [filterBy, setFilter] = useState("Name");
   const [filterInputState, setFilterInputState] = useState("");
@@ -61,17 +74,26 @@ export const AuthContextProvider = (props) => {
     setModalState(bolian);
   };
   //! sending Data to fireStore
-  const sendingDataHandler = async (Data) => {
-    try {
-      const docSnap = await getDoc(document);
-      if (docSnap.exists()) {
+  const sendingDataHandler = useCallback((Data) => {
+    getDoc(document)
+      .then(() => {
         toast.success(`UserName:- "${Data.name}" Added Successfully`);
-        return updateDoc(document, { arrayField: arrayUnion(Data) });
-      }
-    } catch (err) {
-      return toast.error(`Something Went Wrong ❌!!`);
-    }
-  };
+        return updateDoc(document, { arrayField: arrayUnion(Data) }).then(() =>
+          setDataTracking((prevState) => !prevState)
+        );
+      })
+      .catch((err) => {
+        return toast.error(`Something Went Wrong ❌!!`);
+      });
+  }, []);
+
+  //! updating Array of Data
+  useEffect(() => {
+    getDoc(document).then((doc) => {
+      setDataArray(doc.data().arrayField);
+    });
+  }, [dataTracking]);
+
   return (
     <authContext.Provider
       value={{
@@ -82,8 +104,11 @@ export const AuthContextProvider = (props) => {
         setLoadingState,
         loadingState,
         deleteListHandler,
+        editingMode,
+        setEditingMode,
+        editingModeHandler,
+        dataArray,
         //! Filtering States
-
         filterBy,
         setFilter,
         filterInputState,

@@ -46,8 +46,10 @@ const UserTable = () => {
 
   const [dataState, setDataState] = useState("");
   const [fallBackText, setFallbackText] = useState(loadingText);
+  console.log(ctx.dataArray);
 
   const dataGettingFunction = async () => {
+    let dataArray = await ctx.dataArray;
     try {
       const docSnap = await getDoc(ctx.document);
 
@@ -87,7 +89,10 @@ const UserTable = () => {
                 <TableCell>{data.gender}</TableCell>
                 <TableCell>
                   <ButtonGroup variant="contained">
-                    <Button sx={{ background: "green" }}>
+                    <Button
+                      sx={{ background: "green" }}
+                      onClick={() => ctx.editingModeHandler(data.id, i)}
+                    >
                       <EditIcon />
                     </Button>
                     <Button
@@ -116,7 +121,7 @@ const UserTable = () => {
 
   useEffect(() => {
     dataGettingFunction();
-  }, [dataState]);
+  }, []);
 
   return (
     <Container>

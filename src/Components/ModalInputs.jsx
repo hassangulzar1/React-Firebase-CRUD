@@ -9,6 +9,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import { getDoc } from "firebase/firestore";
 
 const ModalInputs = () => {
   const ctx = useContext(authContext);
@@ -60,27 +61,32 @@ const ModalInputs = () => {
     formIsValid = true;
   }
 
+  const editingModeHandler = () => {};
   // Submit Handler
   const AddUserSubmitHandler = async (event) => {
-    event.preventDefault();
-    ctx.setLoadingState(true);
+    if (ctx.editingMode) {
+      editingModeHandler();
+    } else {
+      event.preventDefault();
+      ctx.setLoadingState(true);
 
-    ctx.sendingDataHandler({
-      id: Math.random().toString(36).slice(2),
-      name: enteredName,
-      email: enteredEmail,
-      gender: genderState,
-      sallary: enteredSallary,
-      date: enteredDate,
-    });
-    ctx.setLoadingState(false);
+      ctx.sendingDataHandler({
+        id: Math.random().toString(36).slice(2),
+        name: enteredName,
+        email: enteredEmail,
+        gender: genderState,
+        sallary: enteredSallary,
+        date: enteredDate,
+      });
+      ctx.setLoadingState(false);
 
-    setGenderState();
-    resetName();
-    emailReset();
-    DateReset();
-    sallaryReset();
-    ctx.modalStateHandler(false);
+      setGenderState();
+      resetName();
+      emailReset();
+      DateReset();
+      sallaryReset();
+      ctx.modalStateHandler(false);
+    }
   };
 
   return (
