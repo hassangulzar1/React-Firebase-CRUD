@@ -12,40 +12,11 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Container } from "@mui/material";
 import authContext from "../../context/authContext";
 import { getDoc } from "firebase/firestore";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 import { toast } from "react-toastify";
-
-// !Styles
-const contentStyle = {
-  textAlign: "center",
-  fontFamily: "cursive",
-  marginTop: "2rem",
-  color: "red",
-  fontSize: "1.3rem",
-};
-
 const UserTable = () => {
   const ctx = useContext(authContext);
-  let Content = (
-    <p style={contentStyle}>Nothing Found Enter some data or try again!! 🙂</p>
-  );
-
-  const loadingText = (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        marginTop: "5rem",
-        height: "20vh",
-      }}
-    >
-      <CircularProgress />
-    </Box>
-  );
 
   const [dataState, setDataState] = useState("");
-  const [fallBackText, setFallbackText] = useState(loadingText);
   //! Changing user table based on their current state
 
   useEffect(() => {
@@ -98,7 +69,6 @@ const UserTable = () => {
       </TableBody>
     );
   }, [ctx.dataArray]);
-
   return (
     <Container>
       <TableContainer>
@@ -116,7 +86,7 @@ const UserTable = () => {
           </TableHead>
           {dataState}
         </Table>
-        {dataState == "" && fallBackText}
+        {ctx.fallbackText}
       </TableContainer>
     </Container>
   );

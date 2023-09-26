@@ -90,9 +90,11 @@ export const AuthContextProvider = (props) => {
 
   //! updating Array of Data
   useEffect(() => {
-    getDoc(document).then((doc) => {
-      setDataArray(doc.data().arrayField);
-    });
+    getDoc(document)
+      .then((doc) => {
+        setDataArray(doc.data().arrayField);
+      })
+      .catch((error) => toast.error(error));
   }, [dataTracking]);
 
   return (
@@ -109,6 +111,7 @@ export const AuthContextProvider = (props) => {
         setEditingMode,
         editingModeHandler,
         dataArray,
+        fallbackText,
         //! Filtering States
         filterBy,
         setFilter,
