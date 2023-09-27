@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { app } from "../firebase-config";
 import {
   arrayUnion,
@@ -66,6 +66,7 @@ export const AuthContextProvider = (props) => {
   //! Filtering States
   const [filterBy, setFilter] = useState("Name");
   const [filterInputState, setFilterInputState] = useState("");
+  console.log(filterInputState);
   const handleChange = (event) => {
     setFilter(event.target.value);
   };

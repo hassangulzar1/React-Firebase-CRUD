@@ -11,12 +11,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Container } from "@mui/material";
 import authContext from "../../context/authContext";
-import { getDoc } from "firebase/firestore";
-import { toast } from "react-toastify";
 const UserTable = () => {
   const ctx = useContext(authContext);
 
-  const [dataState, setDataState] = useState("");
+  const [dataState, setDataState] = useState([]);
   //! Changing user table based on their current state
 
   useEffect(() => {
@@ -29,46 +27,9 @@ const UserTable = () => {
         return e.gender.includes(ctx.filterInputState);
       }
     });
-    setDataState(
-      <TableBody>
-        {FilteredArray.map((data, i) => (
-          <TableRow
-            key={data.id}
-            sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-          >
-            <TableCell component="th" scope="row">
-              {i + 1}
-            </TableCell>
-            <TableCell component="th" scope="row">
-              {data.name}
-            </TableCell>
-            <TableCell>{data.email}</TableCell>
-            <TableCell>{data.sallary}</TableCell>
-            <TableCell>{data.date}</TableCell>
-            <TableCell>{data.gender}</TableCell>
-            <TableCell>
-              <ButtonGroup variant="contained">
-                <Button
-                  sx={{ background: "green" }}
-                  onClick={() => ctx.editingModeHandler(data.id, i)}
-                >
-                  <EditIcon />
-                </Button>
-                <Button
-                  sx={{ background: "red" }}
-                  onClick={() => {
-                    ctx.deleteListHandler(data.id);
-                  }}
-                >
-                  <DeleteForeverIcon />
-                </Button>
-              </ButtonGroup>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    );
-  }, [ctx.dataArray]);
+    setDataState(FilteredArray);
+  }, [ctx.dataArray, ctx.filterInputState]);
+
   return (
     <Container>
       <TableContainer>
@@ -84,7 +45,43 @@ const UserTable = () => {
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
-          {dataState}
+          <TableBody>
+            {dataState.map((data, i) => (
+              <TableRow
+                key={data.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {i + 1}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {data.name}
+                </TableCell>
+                <TableCell>{data.email}</TableCell>
+                <TableCell>{data.sallary}</TableCell>
+                <TableCell>{data.date}</TableCell>
+                <TableCell>{data.gender}</TableCell>
+                <TableCell>
+                  <ButtonGroup variant="contained">
+                    <Button
+                      sx={{ background: "green" }}
+                      onClick={() => ctx.editingModeHandler(data.id, i)}
+                    >
+                      <EditIcon />
+                    </Button>
+                    <Button
+                      sx={{ background: "red" }}
+                      onClick={() => {
+                        ctx.deleteListHandler(data.id);
+                      }}
+                    >
+                      <DeleteForeverIcon />
+                    </Button>
+                  </ButtonGroup>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
         </Table>
       </TableContainer>
     </Container>
