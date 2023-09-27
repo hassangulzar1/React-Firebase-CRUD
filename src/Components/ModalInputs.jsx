@@ -170,6 +170,7 @@ const ModalInputs = () => {
         <FormControl>
           <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
           <RadioGroup
+            sx={{ display: "flex", justifyContent: "center" }}
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="row-radio-buttons-group"

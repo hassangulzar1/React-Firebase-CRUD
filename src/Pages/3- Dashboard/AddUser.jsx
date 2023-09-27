@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext } from "react";
 import { Button } from "@mui/material";
 import classes from "./AddUser.module.css";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -10,7 +10,6 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import authContext from "../../context/authContext";
-
 const AddUser = () => {
   const ctx = useContext(authContext);
   const modalOpenerHandler = () => {
@@ -20,7 +19,7 @@ const AddUser = () => {
   //! Css Sx Styles
   const boxStyle = {
     bgcolor: "white",
-    height: "5rem",
+    height: { xs: "9rem", sm: "5rem" },
     position: "relative",
     bottom: 25,
     boxShadow: 3,
@@ -28,7 +27,7 @@ const AddUser = () => {
     justifyContent: "space-around",
     alignItems: "center",
     borderRadius: "12px",
-    flexWrap: "Wrap",
+    flexDirection: { xs: "column", sm: "row" },
   };
   return (
     //! Add Button
